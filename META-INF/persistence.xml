@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+  <persistence-unit name="default">
+    <class>com.theatre.BehindTheScenes.models.Actor</class>
+    <class>com.theatre.BehindTheScenes.models.ActorRole</class>
+    <class>com.theatre.BehindTheScenes.models.ActorSession</class>
+    <class>com.theatre.BehindTheScenes.models.Play</class>
+    <class>com.theatre.BehindTheScenes.models.Replic</class>
+    <class>com.theatre.BehindTheScenes.models.Role</class>
+    <class>com.theatre.BehindTheScenes.models.Script</class>
+    <class>com.theatre.BehindTheScenes.models.Seat</class>
+    <class>com.theatre.BehindTheScenes.models.Session</class>
+    <class>com.theatre.BehindTheScenes.models.SessionSeat</class>
+
+
+    <properties>
+<!--      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/theatre"/>-->
+<!--      <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--      <property name="hibernate.connection.user" value="root"/>-->
+<!--      <property name="hibernate.connection.password" value="behindthescenessql"/>-->
+<!--      <property name="hibernate.show_sql" value="true"/>-->
+    </properties>
+  </persistence-unit>
+</persistence>
