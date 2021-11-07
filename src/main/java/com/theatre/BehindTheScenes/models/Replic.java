@@ -1,7 +1,6 @@
 package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @IdClass(ReplicPK.class)
@@ -9,6 +8,7 @@ public class Replic {
     private String text;
     private int replicNumber;
     private int roleIdRole;
+    private Role roleByRoleIdRole;
 
     @Basic
     @Column(name = "text", nullable = false, length = 300)
@@ -44,12 +44,31 @@ public class Replic {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Replic replic = (Replic) o;
-        return replicNumber == replic.replicNumber && roleIdRole == replic.roleIdRole && Objects.equals(text, replic.text);
+
+        if (replicNumber != replic.replicNumber) return false;
+        if (roleIdRole != replic.roleIdRole) return false;
+        if (text != null ? !text.equals(replic.text) : replic.text != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, replicNumber, roleIdRole);
+        int result = text != null ? text.hashCode() : 0;
+        result = 31 * result + replicNumber;
+        result = 31 * result + roleIdRole;
+        return result;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "Role_idRole", referencedColumnName = "idRole", nullable = false, insertable = false, updatable = false)
+    public Role getRoleByRoleIdRole() {
+        return roleByRoleIdRole;
+    }
+
+    public void setRoleByRoleIdRole(Role roleByRoleIdRole) {
+        this.roleByRoleIdRole = roleByRoleIdRole;
     }
 }

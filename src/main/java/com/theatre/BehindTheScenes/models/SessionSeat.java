@@ -1,7 +1,6 @@
 package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "session_seat", schema = "theatre", catalog = "")
@@ -13,6 +12,7 @@ public class SessionSeat {
     private byte isBookes;
     private int cost;
     private Seat seatBySeatIdSeat;
+    private Session sessionBySessionIdSession;
 
     @Id
     @Column(name = "Seat_idSeat", nullable = false)
@@ -68,22 +68,45 @@ public class SessionSeat {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         SessionSeat that = (SessionSeat) o;
-        return seatIdSeat == that.seatIdSeat && sessionIdSession == that.sessionIdSession && isFree == that.isFree && isBookes == that.isBookes && cost == that.cost;
+
+        if (seatIdSeat != that.seatIdSeat) return false;
+        if (sessionIdSession != that.sessionIdSession) return false;
+        if (isFree != that.isFree) return false;
+        if (isBookes != that.isBookes) return false;
+        if (cost != that.cost) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seatIdSeat, sessionIdSession, isFree, isBookes, cost);
+        int result = seatIdSeat;
+        result = 31 * result + sessionIdSession;
+        result = 31 * result + (int) isFree;
+        result = 31 * result + (int) isBookes;
+        result = 31 * result + cost;
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "Seat_idSeat", referencedColumnName = "idSeat", nullable = false)
+    @JoinColumn(name = "Seat_idSeat", referencedColumnName = "idSeat", nullable = false, insertable = false, updatable = false)
     public Seat getSeatBySeatIdSeat() {
         return seatBySeatIdSeat;
     }
 
     public void setSeatBySeatIdSeat(Seat seatBySeatIdSeat) {
         this.seatBySeatIdSeat = seatBySeatIdSeat;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "Session_idSession", referencedColumnName = "idSession", nullable = false, insertable = false, updatable = false)
+    public Session getSessionBySessionIdSession() {
+        return sessionBySessionIdSession;
+    }
+
+    public void setSessionBySessionIdSession(Session sessionBySessionIdSession) {
+        this.sessionBySessionIdSession = sessionBySessionIdSession;
     }
 }

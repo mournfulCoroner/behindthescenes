@@ -2,7 +2,6 @@ package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 public class Seat {
@@ -45,13 +44,22 @@ public class Seat {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Seat seat = (Seat) o;
-        return seatNumber == seat.seatNumber && hallNumber == seat.hallNumber && idSeat == seat.idSeat;
+
+        if (seatNumber != seat.seatNumber) return false;
+        if (hallNumber != seat.hallNumber) return false;
+        if (idSeat != seat.idSeat) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seatNumber, hallNumber, idSeat);
+        int result = seatNumber;
+        result = 31 * result + hallNumber;
+        result = 31 * result + idSeat;
+        return result;
     }
 
     @OneToMany(mappedBy = "seatBySeatIdSeat")

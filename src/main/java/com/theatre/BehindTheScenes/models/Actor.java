@@ -2,7 +2,6 @@ package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 public class Actor {
@@ -11,8 +10,8 @@ public class Actor {
     private Collection<ActorRole> actorRolesByIdActor;
 
     @Id
-    @GeneratedValue
     @Column(name = "idActor", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getIdActor() {
         return idActor;
     }
@@ -35,13 +34,20 @@ public class Actor {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Actor actor = (Actor) o;
-        return idActor == actor.idActor && Objects.equals(name, actor.name);
+
+        if (idActor != actor.idActor) return false;
+        if (name != null ? !name.equals(actor.name) : actor.name != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idActor, name);
+        int result = idActor;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 
     @OneToMany(mappedBy = "actorByActorIdActor")

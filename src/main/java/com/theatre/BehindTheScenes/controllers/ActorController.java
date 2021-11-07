@@ -21,7 +21,7 @@ public class ActorController {
     @GetMapping("/actors")
     public List<Actor> getAll(){
         Actor actor = new Actor();
-        actor.setName("Elise A.R.");
+        actor.setName("Марьянов М.А.");
         actorRepository.save(actor);
         return actorRepository.findAll();
     }

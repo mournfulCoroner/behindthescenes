@@ -1,8 +1,9 @@
 package com.theatre.BehindTheScenes.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 @Table(name = "actor_role", schema = "theatre", catalog = "")
@@ -11,6 +12,7 @@ public class ActorRole {
     private int actorIdActor;
     private int roleIdRole;
     private Actor actorByActorIdActor;
+    private Role roleByRoleIdRole;
     private Collection<ActorSession> actorSessions;
 
     @Id
@@ -37,17 +39,25 @@ public class ActorRole {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ActorRole actorRole = (ActorRole) o;
-        return actorIdActor == actorRole.actorIdActor && roleIdRole == actorRole.roleIdRole;
+
+        if (actorIdActor != actorRole.actorIdActor) return false;
+        if (roleIdRole != actorRole.roleIdRole) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actorIdActor, roleIdRole);
+        int result = actorIdActor;
+        result = 31 * result + roleIdRole;
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "Actor_idActor", referencedColumnName = "idActor", nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "Actor_idActor", referencedColumnName = "idActor", nullable = false, insertable = false, updatable = false)
     public Actor getActorByActorIdActor() {
         return actorByActorIdActor;
     }
@@ -56,7 +66,19 @@ public class ActorRole {
         this.actorByActorIdActor = actorByActorIdActor;
     }
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "Role_idRole", referencedColumnName = "idRole", nullable = false, insertable = false, updatable = false)
+    public Role getRoleByRoleIdRole() {
+        return roleByRoleIdRole;
+    }
+
+    public void setRoleByRoleIdRole(Role roleByRoleIdRole) {
+        this.roleByRoleIdRole = roleByRoleIdRole;
+    }
+
     @OneToMany(mappedBy = "actorRole")
+    @JsonIgnore
     public Collection<ActorSession> getActorSessions() {
         return actorSessions;
     }

@@ -1,7 +1,6 @@
 package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "actor_session", schema = "theatre", catalog = "")
@@ -11,6 +10,7 @@ public class ActorSession {
     private int actorRoleRoleIdRole;
     private int sessionIdSession;
     private ActorRole actorRole;
+    private Session sessionBySessionIdSession;
 
     @Id
     @Column(name = "Actor_Role_Actor_idActor", nullable = false)
@@ -46,22 +46,42 @@ public class ActorSession {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ActorSession that = (ActorSession) o;
-        return actorRoleActorIdActor == that.actorRoleActorIdActor && actorRoleRoleIdRole == that.actorRoleRoleIdRole && sessionIdSession == that.sessionIdSession;
+
+        if (actorRoleActorIdActor != that.actorRoleActorIdActor) return false;
+        if (actorRoleRoleIdRole != that.actorRoleRoleIdRole) return false;
+        if (sessionIdSession != that.sessionIdSession) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actorRoleActorIdActor, actorRoleRoleIdRole, sessionIdSession);
+        int result = actorRoleActorIdActor;
+        result = 31 * result + actorRoleRoleIdRole;
+        result = 31 * result + sessionIdSession;
+        return result;
     }
 
     @ManyToOne
-    @JoinColumns({@JoinColumn(name = "Actor_Role_Actor_idActor", referencedColumnName = "Actor_idActor", nullable = false), @JoinColumn(name = "Actor_Role_Role_idRole", referencedColumnName = "Role_idRole", nullable = false)})
+    @JoinColumns({@JoinColumn(name = "Actor_Role_Actor_idActor", referencedColumnName = "Actor_idActor", nullable = false, insertable = false, updatable = false),
+            @JoinColumn(name = "Actor_Role_Role_idRole", referencedColumnName = "Role_idRole", nullable = false, insertable = false, updatable = false)})
     public ActorRole getActorRole() {
         return actorRole;
     }
 
     public void setActorRole(ActorRole actorRole) {
         this.actorRole = actorRole;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "Session_idSession", referencedColumnName = "idSession", nullable = false , insertable = false, updatable = false)
+    public Session getSessionBySessionIdSession() {
+        return sessionBySessionIdSession;
+    }
+
+    public void setSessionBySessionIdSession(Session sessionBySessionIdSession) {
+        this.sessionBySessionIdSession = sessionBySessionIdSession;
     }
 }

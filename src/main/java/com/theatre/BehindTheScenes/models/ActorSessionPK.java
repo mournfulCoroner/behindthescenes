@@ -3,7 +3,6 @@ package com.theatre.BehindTheScenes.models;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Objects;
 
 public class ActorSessionPK implements Serializable {
     private int actorRoleActorIdActor;
@@ -44,12 +43,21 @@ public class ActorSessionPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ActorSessionPK that = (ActorSessionPK) o;
-        return actorRoleActorIdActor == that.actorRoleActorIdActor && actorRoleRoleIdRole == that.actorRoleRoleIdRole && sessionIdSession == that.sessionIdSession;
+
+        if (actorRoleActorIdActor != that.actorRoleActorIdActor) return false;
+        if (actorRoleRoleIdRole != that.actorRoleRoleIdRole) return false;
+        if (sessionIdSession != that.sessionIdSession) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actorRoleActorIdActor, actorRoleRoleIdRole, sessionIdSession);
+        int result = actorRoleActorIdActor;
+        result = 31 * result + actorRoleRoleIdRole;
+        result = 31 * result + sessionIdSession;
+        return result;
     }
 }

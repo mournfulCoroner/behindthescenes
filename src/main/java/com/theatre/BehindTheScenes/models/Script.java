@@ -2,7 +2,6 @@ package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
 public class Script {
@@ -15,6 +14,7 @@ public class Script {
     private Collection<Role> rolesByIdScript;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idScript", nullable = false)
     public int getIdScript() {
         return idScript;
@@ -68,13 +68,26 @@ public class Script {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Script script = (Script) o;
-        return idScript == script.idScript && inUse == script.inUse && rolesAmount == script.rolesAmount && Objects.equals(title, script.title) && Objects.equals(author, script.author);
+
+        if (idScript != script.idScript) return false;
+        if (inUse != script.inUse) return false;
+        if (rolesAmount != script.rolesAmount) return false;
+        if (title != null ? !title.equals(script.title) : script.title != null) return false;
+        if (author != null ? !author.equals(script.author) : script.author != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idScript, title, author, inUse, rolesAmount);
+        int result = idScript;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (int) inUse;
+        result = 31 * result + rolesAmount;
+        return result;
     }
 
     @OneToMany(mappedBy = "scriptByScriptIdScript")

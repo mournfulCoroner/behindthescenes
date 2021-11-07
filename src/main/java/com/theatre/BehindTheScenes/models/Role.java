@@ -1,20 +1,19 @@
 package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Collection;
 
 @Entity
-@IdClass(RolePK.class)
 public class Role {
     private int idRole;
     private String roleName;
     private byte isMain;
-    private int scriptIdScript;
-    private ActorRole actorRoleByIdRole;
-    private Replic replicByIdRole;
+    private Collection<ActorRole> actorRolesByIdRole;
+    private Collection<Replic> replicsByIdRole;
     private Script scriptByScriptIdScript;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idRole", nullable = false)
     public int getIdRole() {
         return idRole;
@@ -44,51 +43,48 @@ public class Role {
         this.isMain = isMain;
     }
 
-    @Id
-    @Column(name = "Script_idScript", nullable = false)
-    public int getScriptIdScript() {
-        return scriptIdScript;
-    }
-
-    public void setScriptIdScript(int scriptIdScript) {
-        this.scriptIdScript = scriptIdScript;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Role role = (Role) o;
-        return idRole == role.idRole && isMain == role.isMain && scriptIdScript == role.scriptIdScript && Objects.equals(roleName, role.roleName);
+
+        if (idRole != role.idRole) return false;
+        if (isMain != role.isMain) return false;
+        if (roleName != null ? !roleName.equals(role.roleName) : role.roleName != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRole, roleName, isMain, scriptIdScript);
+        int result = idRole;
+        result = 31 * result + (roleName != null ? roleName.hashCode() : 0);
+        result = 31 * result + (int) isMain;
+        return result;
+    }
+
+    @OneToMany(mappedBy = "roleByRoleIdRole")
+    public Collection<ActorRole> getActorRolesByIdRole() {
+        return actorRolesByIdRole;
+    }
+
+    public void setActorRolesByIdRole(Collection<ActorRole> actorRolesByIdRole) {
+        this.actorRolesByIdRole = actorRolesByIdRole;
+    }
+
+    @OneToMany(mappedBy = "roleByRoleIdRole")
+    public Collection<Replic> getReplicsByIdRole() {
+        return replicsByIdRole;
+    }
+
+    public void setReplicsByIdRole(Collection<Replic> replicsByIdRole) {
+        this.replicsByIdRole = replicsByIdRole;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idRole", referencedColumnName = "Role_idRole", nullable = false)
-    public ActorRole getActorRoleByIdRole() {
-        return actorRoleByIdRole;
-    }
-
-    public void setActorRoleByIdRole(ActorRole actorRoleByIdRole) {
-        this.actorRoleByIdRole = actorRoleByIdRole;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idRole", referencedColumnName = "Role_idRole", nullable = false)
-    public Replic getReplicByIdRole() {
-        return replicByIdRole;
-    }
-
-    public void setReplicByIdRole(Replic replicByIdRole) {
-        this.replicByIdRole = replicByIdRole;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "Script_idScript", referencedColumnName = "idScript", nullable = false)
+    @JoinColumn(name = "Script_idScript", referencedColumnName = "idScript", nullable = false, insertable = false, updatable = false)
     public Script getScriptByScriptIdScript() {
         return scriptByScriptIdScript;
     }

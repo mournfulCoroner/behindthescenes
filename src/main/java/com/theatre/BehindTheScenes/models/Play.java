@@ -2,19 +2,18 @@ package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Objects;
+import java.util.Collection;
 
 @Entity
-@IdClass(PlayPK.class)
 public class Play {
     private int idPlay;
     private Date premierDate;
     private Date endDate;
-    private int scriptIdScript;
     private Script scriptByScriptIdScript;
-    private Session sessionByIdPlay;
+    private Collection<Session> sessionsByIdPlay;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPlay", nullable = false)
     public int getIdPlay() {
         return idPlay;
@@ -44,31 +43,30 @@ public class Play {
         this.endDate = endDate;
     }
 
-    @Id
-    @Column(name = "Script_idScript", nullable = false)
-    public int getScriptIdScript() {
-        return scriptIdScript;
-    }
-
-    public void setScriptIdScript(int scriptIdScript) {
-        this.scriptIdScript = scriptIdScript;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Play play = (Play) o;
-        return idPlay == play.idPlay && scriptIdScript == play.scriptIdScript && Objects.equals(premierDate, play.premierDate) && Objects.equals(endDate, play.endDate);
+
+        if (idPlay != play.idPlay) return false;
+        if (premierDate != null ? !premierDate.equals(play.premierDate) : play.premierDate != null) return false;
+        if (endDate != null ? !endDate.equals(play.endDate) : play.endDate != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPlay, premierDate, endDate, scriptIdScript);
+        int result = idPlay;
+        result = 31 * result + (premierDate != null ? premierDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        return result;
     }
 
     @ManyToOne
-    @JoinColumn(name = "Script_idScript", referencedColumnName = "idScript", nullable = false)
+    @JoinColumn(name = "Script_idScript", referencedColumnName = "idScript", nullable = false, insertable = false, updatable = false)
     public Script getScriptByScriptIdScript() {
         return scriptByScriptIdScript;
     }
@@ -77,13 +75,12 @@ public class Play {
         this.scriptByScriptIdScript = scriptByScriptIdScript;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "idPlay", referencedColumnName = "Play_idPlay", nullable = false)
-    public Session getSessionByIdPlay() {
-        return sessionByIdPlay;
+    @OneToMany(mappedBy = "playByPlayIdPlay")
+    public Collection<Session> getSessionsByIdPlay() {
+        return sessionsByIdPlay;
     }
 
-    public void setSessionByIdPlay(Session sessionByIdPlay) {
-        this.sessionByIdPlay = sessionByIdPlay;
+    public void setSessionsByIdPlay(Collection<Session> sessionsByIdPlay) {
+        this.sessionsByIdPlay = sessionsByIdPlay;
     }
 }

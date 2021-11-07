@@ -2,19 +2,19 @@ package com.theatre.BehindTheScenes.models;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
+import java.util.Collection;
 
 @Entity
-@IdClass(SessionPK.class)
 public class Session {
     private int idSession;
     private Timestamp date;
     private int hallNumber;
-    private int playIdPlay;
-    private ActorSession actorSessionByIdSession;
-    private SessionSeat sessionSeatByIdSession;
+    private Collection<ActorSession> actorSessionsByIdSession;
+    private Play playByPlayIdPlay;
+    private Collection<SessionSeat> sessionSeatsByIdSession;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idSession", nullable = false)
     public int getIdSession() {
         return idSession;
@@ -44,46 +44,53 @@ public class Session {
         this.hallNumber = hallNumber;
     }
 
-    @Id
-    @Column(name = "Play_idPlay", nullable = false)
-    public int getPlayIdPlay() {
-        return playIdPlay;
-    }
-
-    public void setPlayIdPlay(int playIdPlay) {
-        this.playIdPlay = playIdPlay;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Session session = (Session) o;
-        return idSession == session.idSession && hallNumber == session.hallNumber && playIdPlay == session.playIdPlay && Objects.equals(date, session.date);
+
+        if (idSession != session.idSession) return false;
+        if (hallNumber != session.hallNumber) return false;
+        if (date != null ? !date.equals(session.date) : session.date != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idSession, date, hallNumber, playIdPlay);
+        int result = idSession;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + hallNumber;
+        return result;
+    }
+
+    @OneToMany(mappedBy = "sessionBySessionIdSession")
+    public Collection<ActorSession> getActorSessionsByIdSession() {
+        return actorSessionsByIdSession;
+    }
+
+    public void setActorSessionsByIdSession(Collection<ActorSession> actorSessionsByIdSession) {
+        this.actorSessionsByIdSession = actorSessionsByIdSession;
     }
 
     @ManyToOne
-    @JoinColumn(name = "idSession", referencedColumnName = "Session_idSession", nullable = false)
-    public ActorSession getActorSessionByIdSession() {
-        return actorSessionByIdSession;
+    @JoinColumn(name = "Play_idPlay", referencedColumnName = "idPlay", nullable = false, insertable = false, updatable = false)
+    public Play getPlayByPlayIdPlay() {
+        return playByPlayIdPlay;
     }
 
-    public void setActorSessionByIdSession(ActorSession actorSessionByIdSession) {
-        this.actorSessionByIdSession = actorSessionByIdSession;
+    public void setPlayByPlayIdPlay(Play playByPlayIdPlay) {
+        this.playByPlayIdPlay = playByPlayIdPlay;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "idSession", referencedColumnName = "Session_idSession", nullable = false)
-    public SessionSeat getSessionSeatByIdSession() {
-        return sessionSeatByIdSession;
+    @OneToMany(mappedBy = "sessionBySessionIdSession")
+    public Collection<SessionSeat> getSessionSeatsByIdSession() {
+        return sessionSeatsByIdSession;
     }
 
-    public void setSessionSeatByIdSession(SessionSeat sessionSeatByIdSession) {
-        this.sessionSeatByIdSession = sessionSeatByIdSession;
+    public void setSessionSeatsByIdSession(Collection<SessionSeat> sessionSeatsByIdSession) {
+        this.sessionSeatsByIdSession = sessionSeatsByIdSession;
     }
 }
