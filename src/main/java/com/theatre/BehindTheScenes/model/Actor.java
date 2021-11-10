@@ -1,4 +1,4 @@
-package com.theatre.BehindTheScenes.models;
+package com.theatre.BehindTheScenes.model;
 
 import javax.persistence.*;
 import java.util.Collection;
