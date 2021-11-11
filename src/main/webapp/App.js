@@ -12,10 +12,12 @@ const App = (props) => {
     }
 
     return (
-        <div className="App">
-            <Header/>
-            <Login/>
-            <Content/>
+        <div className="App" className="d-flex h-100 text-center text-dark">
+            <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+                <Header/>
+                <Login/>
+                <Content/>
+            </div>
         </div>
     );
 }
