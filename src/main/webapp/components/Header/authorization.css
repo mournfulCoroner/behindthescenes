@@ -1,0 +1,15 @@
+.authorization {
+    color: white;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.authorization-button {
+    color: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+}

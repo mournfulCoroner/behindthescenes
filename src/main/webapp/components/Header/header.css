@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Wendy+One&display=swap');
+
+.header {
+    top: 0;
+    left: 0;
+    background-color: #D5F6D5;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header__child {
+    margin: 0 7px;
+}
+
+.header__child_grow {
+    flex-grow: 1;
+}
+
+.header__logo-wrap {
+    display: flex;
+}
+
+.header__logo-image {
+    background-image: url("./cat.svg");
+    width: 34px;
+    height: 34px;
+    margin-right: 7px;
+}
+
+.header__title {
+    color: rgb(148 195 149);;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.header__avatar {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-right: 7px;
+    border-radius: 100%;
+}
