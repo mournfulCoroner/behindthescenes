@@ -1,7 +1,7 @@
 .content {
     box-sizing: border-box;
     width: 100%;
-    margin: calc(var(--height-header) + 30px) auto 0 auto;
+    margin: auto auto 0 auto;
 }
 
 @media (min-width: 1000px) {

@@ -24,7 +24,7 @@ const Header = (props) => {
                     </NavDropdown>
                 </Nav>
                 <Nav>
-                <div className="me-5 text-dark fs-5">
+                <div className="mx-auto px-5 text-dark fs-5">
                     {
                         props.nickname
                             ? <Link
