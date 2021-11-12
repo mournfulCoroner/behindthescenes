@@ -1,0 +1,9 @@
+.actors-block {
+    margin-top: 20vh !important;
+}
+
+@media(max-width: 900px) {
+    .actors-block {
+        margin-top: 10vh !important;
+    }
+}

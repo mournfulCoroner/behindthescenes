@@ -1,20 +1,34 @@
 import React, { useEffect } from "react";
-import { withRouter } from "react-router-dom";
 import { actorGetters, getActors, setActors } from "../../bll/reducers/reducerActor";
 import { connect } from "react-redux";
+import { Col, Container, Row } from "react-bootstrap";
+import "./Actors.css";
 
 const Actors = (props) => {
     useEffect(() => {
         props.setDataActors();
     }, []);
 
-    let actors = props.actors.map((actor) => <div key={actor.actorId}>{actor.name}</div>)
+
+    let actors = props.actors.map((actor) => <div className="shadow-sm rounded list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</div>)
 
     return (
         <>
-           <div>
-                {actors}
-           </div>
+            <div>
+                <div className="album border bg-light rounded mx-auto actors-block">
+                        <Row>
+                            <Col xs={4}>
+                                <div className="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                    <div className="list-group list-group-flush border-bottom scrollarea">
+                                        {actors}
+                                    </div>
+                                </div></Col>
+                            <Col xs={8}>
+                                <div>Контент</div>
+                            </Col>
+                        </Row>
+                </div>
+            </div>
         </>
     );
 }

@@ -2,7 +2,7 @@ import * as axios from 'axios';
 
 export const apiActor = {
     getActors() {
-        return axios.get('/actors').then(responce => responce.data)
+        return axios.get('/api/actors').then(responce => responce.data)
     },
     searchActor(name) {
         return axios.get(`/api/actors/${name}`).then(responce => responce.data)

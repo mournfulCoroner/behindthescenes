@@ -87,7 +87,7 @@ public class ActorController {
         }
     }
 
-    @GetMapping(value = "/actors")
+    @GetMapping(value = "/api/actors")
     public ResponseEntity<List<Actor>> read() throws UnsupportedEncodingException {
 
         final List<Actor> actors = actorService.findAll();
