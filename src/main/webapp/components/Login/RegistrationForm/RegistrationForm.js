@@ -110,7 +110,7 @@ const RegistrationForm = ({ isVisible, goToLoginForm, registration,
     }
 
     return (
-        <Modal size="lg"
+        <Modal 
             aria-labelledby="contained-modal-title-vcenter"
             centered
             show={isVisible}

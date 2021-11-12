@@ -21,6 +21,7 @@
     margin-top: -10px;
     display: flex;
     flex-direction: column;
+    max-width: 350px;
 }
 
 .login__form_hidden {

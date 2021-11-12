@@ -15,6 +15,15 @@ public class ActorRole {
     private Role roleByRoleIdRole;
     private Collection<ActorSession> actorSessions;
 
+    public ActorRole(int actorIdActor, int roleIdRole) {
+        this.actorIdActor = actorIdActor;
+        this.roleIdRole = roleIdRole;
+    }
+
+    public ActorRole() {
+
+    }
+
     @Id
     @Column(name = "Actor_idActor", nullable = false)
     public int getActorIdActor() {

@@ -8,6 +8,14 @@ public class ActorRolePK implements Serializable {
     private int actorIdActor;
     private int roleIdRole;
 
+    public ActorRolePK(int actorIdActor, int roleIdRole) {
+        this.actorIdActor = actorIdActor;
+        this.roleIdRole = roleIdRole;
+    }
+
+    public ActorRolePK() {
+    }
+
     @Column(name = "Actor_idActor", nullable = false)
     @Id
     public int getActorIdActor() {

@@ -27,7 +27,7 @@ const LoginForm = ({ isVisible, goToRegistrationForm, login, loginError, deleteL
 
     return (
         
-        <Modal size="lg"
+        <Modal 
             aria-labelledby="contained-modal-title-vcenter"
             centered
             show={isVisible}
