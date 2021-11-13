@@ -58,11 +58,16 @@ public class ActorService {
         actorRoleRepository.deleteById(new ActorRolePK(actorId, roleId));
     }
 
-//    public List<Role> getRoles(int actorId){
-//        List<ActorRole> lst = actorRoleRepository.findAllByActorIdActor(actorId);
-//        List<Role> roles = new ArrayList<>();
-//        for(ActorRole actorRole: lst){
-//
-//        }
-//    }
+    public List<Role> getRoles(int actorId){
+        List<Role> roles = new ArrayList<>();
+        Actor actor = actorRepository.findById(actorId).orElse(null);
+        if(actor != null){
+            List<ActorRole> lst = (List<ActorRole>) actor.getActorRolesByIdActor();
+            for(ActorRole actrole: lst){
+                roles.add(actrole.getRoleByRoleIdRole());
+            }
+            return roles;
+        }
+        return null;
+    }
 }
