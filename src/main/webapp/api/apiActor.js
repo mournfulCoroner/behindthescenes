@@ -21,5 +21,8 @@ export const apiActor = {
             headers:
                 { "Authorization": authorization }
         }.then(responce => responce.json()))
+    },
+    getActorRoles(id) {
+        return axios.get(`/actors/${id}/roles`).then(responce => responce.data);
     }
 }

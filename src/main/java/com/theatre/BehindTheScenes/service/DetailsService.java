@@ -27,9 +27,10 @@ public class DetailsService implements UserDetailsService {
         if (user == null){
             return null;
         }
+        System.out.println(user.getEncodePassword());
         return new org.springframework.security.core.userdetails.User(
                 user.getNickname(),
-                user.getPassword(),
+                user.getEncodePassword(),
                 userService.getUserAuthorities(user.getId())
         );
     }

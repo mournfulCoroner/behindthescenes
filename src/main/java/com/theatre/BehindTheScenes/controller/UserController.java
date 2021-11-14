@@ -51,7 +51,7 @@ public class UserController {
     @PostMapping(value = "/users/my_login")
     public ResponseEntity<LoginDTO> login(@RequestBody UserDTO userDTO){
         PasswordEncoder encoder = User.PASSWORD_ENCODER;
-
+        
         UserDetails user = detailsService.loadUserByUsername(userDTO.getNickname());
 
         if (user == null || !encoder.matches(userDTO.getPassword(), user.getPassword())) {

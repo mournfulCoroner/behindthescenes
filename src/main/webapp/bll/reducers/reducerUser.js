@@ -4,7 +4,6 @@ import {loginActionCreators} from "./reducerLogin";
 const initialState = {
     authorization: "",
     nickname: "",
-    avatar: undefined,
     loginError: "",
     registrationError: ""
 };
@@ -88,8 +87,7 @@ export const userThunkCreators = {
         return async (dispatch) => {
             try {
                 const {authorization} = await apiUser.login(nickname, password);
-                const avatar = await apiUser.getImage(nickname);
-                dispatch(userActionCreator.login(authorization, nickname, avatar));
+                dispatch(userActionCreator.login(authorization, nickname));
                 dispatch(loginActionCreators.close());
             } catch (e) {
                 dispatch(userActionCreator.changeLoginError(e.message));
@@ -97,12 +95,12 @@ export const userThunkCreators = {
         }
     },
 
-    registration(nickname, password, avatar) {
+    registration(nickname, password) {
         return async (dispatch) => {
             try {
                 const {authorization} = await apiUser
-                    .registration(nickname, password, avatar);
-                dispatch(userActionCreator.login(authorization, nickname, avatar));
+                    .registration(nickname, password);
+                dispatch(userActionCreator.login(authorization, nickname));
                 dispatch(loginActionCreators.close());
             } catch (e) {
                 dispatch(userActionCreator.changeRegistrationError(e.message));

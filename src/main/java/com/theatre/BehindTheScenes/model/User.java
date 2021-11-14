@@ -19,10 +19,10 @@ public class User {
         super();
     }
 
-    public User(String nickname, String password) {
+    public User(String nickname, String password, String encodePassword) {
         this.nickname = nickname;
-        setPassword(password);
-        setEncodePassword(password);
+        this.password = password;
+        this.encodePassword = encodePassword;
     }
     @Basic
     @Column(name = "nickname", nullable = false, length = 32)
@@ -35,6 +35,7 @@ public class User {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
@@ -61,7 +62,7 @@ public class User {
     }
 
     public void setEncodePassword(String encodePassword) {
-        this.encodePassword = PASSWORD_ENCODER.encode(password);
+        this.encodePassword = encodePassword;
     }
 
     @Override

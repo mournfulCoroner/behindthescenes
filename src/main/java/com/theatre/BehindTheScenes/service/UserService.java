@@ -9,6 +9,7 @@ import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.model.UserAuthority;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -39,7 +40,8 @@ public class UserService {
      * @return true если сохранился, иначе false
      */
     public User saveUser(UserDTO userDTO) {
-        User user = new User(userDTO.getNickname(), userDTO.getPassword());
+
+        User user = new User(userDTO.getNickname(), userDTO.getPassword(), User.PASSWORD_ENCODER.encode(userDTO.getPassword()));
         return userRepository.save(user);
     }
 

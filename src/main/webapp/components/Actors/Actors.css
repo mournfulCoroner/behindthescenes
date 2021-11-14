@@ -1,9 +1,16 @@
 .actors-block {
-    margin-top: 20vh !important;
+    margin-top: 3vh !important;
+    height: 83vh;
 }
 
 @media(max-width: 900px) {
     .actors-block {
-        margin-top: 10vh !important;
+        margin-top: 3vh !important;
+        height: 83vh;
     }
+}
+
+.actors-container{
+    box-shadow: inset 0px 1px 1px 0px;
+    height: 100%;
 }

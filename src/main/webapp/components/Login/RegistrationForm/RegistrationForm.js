@@ -66,13 +66,13 @@ const RegistrationForm = ({ isVisible, goToLoginForm, registration,
             return;
         }
 
-        util.readFilesAsDataURL([...loginForm.elements.avatar.files], (results) => {
-            registration(
-                loginForm.elements.nickname.value,
-                loginForm.elements.password.value,
-                results[0]?.src ? results[0].src : null
-            );
-        });
+        registration(
+            loginForm.elements.nickname.value,
+            loginForm.elements.password.value
+        );
+
+        closeForms();
+
     }
 
     const handlerDeleteLoginError = () => {
@@ -110,7 +110,7 @@ const RegistrationForm = ({ isVisible, goToLoginForm, registration,
     }
 
     return (
-        <Modal 
+        <Modal
             aria-labelledby="contained-modal-title-vcenter"
             centered
             show={isVisible}
@@ -171,8 +171,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    registration(nickname, password, avatar) {
-        dispatch(userThunkCreators.registration(nickname, password, avatar));
+    registration(nickname, password) {
+        dispatch(userThunkCreators.registration(nickname, password));
     },
     deleteRegistrationError() {
         dispatch(userActionCreator.changeRegistrationError(""))

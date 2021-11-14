@@ -12,7 +12,9 @@ const apiUser = {
             throw Error("Неправильный логин или пароль");
         }
 
-        return await response.json();
+        let result = await response.json();
+        localStorage.setItem(nickname, result.authorization);
+        return result;
     },
 
     async registration(nickname, password) {

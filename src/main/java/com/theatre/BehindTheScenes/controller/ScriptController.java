@@ -1,9 +1,9 @@
 package com.theatre.BehindTheScenes.controller;
 
-import com.theatre.BehindTheScenes.model.Actor;
-import com.theatre.BehindTheScenes.model.Role;
+import com.theatre.BehindTheScenes.dto.ScriptDTO;
+import com.theatre.BehindTheScenes.model.Script;
 import com.theatre.BehindTheScenes.model.User;
-import com.theatre.BehindTheScenes.service.ActorService;
+import com.theatre.BehindTheScenes.service.ScriptService;
 import com.theatre.BehindTheScenes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,54 +14,53 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-@RestController
-public class ActorController {
-
-    private final ActorService actorService;
+public class ScriptController {
+    private final ScriptService scriptService;
     private final UserService userService;
 
     @Autowired
-    public ActorController(ActorService actorService, UserService userService) {
-        this.actorService = actorService;
+    public ScriptController(ScriptService scriptService, UserService userService) {
+        this.scriptService = scriptService;
         this.userService = userService;
     }
 
-    @PostMapping(value = "/actors")
-    public ResponseEntity<Actor> create(
+    @PostMapping(value = "/scripts")
+    public ResponseEntity<Script> create(
             @RequestHeader("Authorization") String authorization,
-            @RequestBody Actor actor
+            @RequestBody Script script
     ) throws IOException {
         User user = userService.getUserByAuthorization(authorization);
-        System.out.println(user.getNickname() + " " + user.getPassword());
+
+
         if(user != null){
-            Actor newActor = actorService.create(actor);
-            return new ResponseEntity<>(newActor, HttpStatus.CREATED);
+            Script newScript = scriptService.create(script);
+            return new ResponseEntity<>(newScript, HttpStatus.CREATED);
         }
         else{
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
-    @GetMapping(value = "/actors/{name}")
+    @GetMapping(value = "/scripts/{name}")
     public ResponseEntity<?> findByName(
             @PathVariable(name = "name") String name
     ) throws UnsupportedEncodingException {
 
-        List<Actor> actors = actorService.search(name);
+        List<Script> scripts = scriptService.search(name);
 
-        return actors != null
-                ? new ResponseEntity<>(actors, HttpStatus.OK)
+        return scripts != null
+                ? new ResponseEntity<>(scripts, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/actors/{id}")
+    @DeleteMapping(value = "/scripts/{id}")
     public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
                                      @PathVariable(name = "id") int id) throws UnsupportedEncodingException {
 
         User user = userService.getUserByAuthorization(authorization);
 
         if(user != null){
-            final boolean deleted = actorService.delete(id);
+            final boolean deleted = scriptService.delete(id);
             return deleted
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -72,14 +71,14 @@ public class ActorController {
     }
 
 
-    @PutMapping(value = "/actors/{id}")
+    @PutMapping(value = "/scripts/{id}")
     public ResponseEntity<?> update(@RequestHeader("Authorization") String authorization,
-                                    @PathVariable(name = "id") int id, @RequestBody String name) throws UnsupportedEncodingException {
+                                    @PathVariable(name = "id") int id, @RequestBody ScriptDTO scriptDTO) throws UnsupportedEncodingException {
 
         User user = userService.getUserByAuthorization(authorization);
 
         if(user != null){
-            actorService.update(id, name);
+            scriptService.update(scriptDTO.getIdScript(), scriptDTO.getTitle(), scriptDTO.getAuthor());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else{
@@ -87,25 +86,14 @@ public class ActorController {
         }
     }
 
-    @GetMapping(value = "/actors")
-    public ResponseEntity<List<Actor>> read() throws UnsupportedEncodingException {
+    @GetMapping(value = "/scripts")
+    public ResponseEntity<List<Script>> read() throws UnsupportedEncodingException {
 
-        final List<Actor> actors = actorService.findAll();
+        final List<Script> scripts = scriptService.findAll();
 
-        return actors != null &&  !actors.isEmpty()
-                ? new ResponseEntity<>(actors, HttpStatus.OK)
+        return scripts != null &&  !scripts.isEmpty()
+                ? new ResponseEntity<>(scripts, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-    @GetMapping(value = "/actors/{id}/roles")
-    public ResponseEntity<List<Role>> readActorRoles(@PathVariable(name = "id") int id) throws UnsupportedEncodingException {
-
-        final List<Role> roles = actorService.getRoles(id);
-
-        return roles != null &&  !roles.isEmpty()
-                ? new ResponseEntity<>(roles, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
 
 }

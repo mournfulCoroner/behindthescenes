@@ -10,15 +10,15 @@ const Actors = (props) => {
     }, []);
 
 
-    let actors = props.actors.map((actor) => <div className="shadow-sm rounded list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</div>)
+    let actors = props.actors.map((actor) => <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</div>)
 
     return (
         <>
             <div>
                 <div className="album border bg-light rounded mx-auto actors-block">
-                        <Row>
+                        <Row style={{height: "100%"}}>
                             <Col xs={4}>
-                                <div className="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                                     <div className="list-group list-group-flush border-bottom scrollarea">
                                         {actors}
                                     </div>
