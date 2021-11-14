@@ -10,9 +10,9 @@ const Content = (props) => {
     return (
         <section className="content">
             <Switch>
-                <Route path={["/home/:tags", "/home"]}><Home/></Route>
+                <Route path={["/home"]}><Home/></Route>
                 <Route path={["/user/:nickname"]}><UserProfile /></Route>
-                <Route path={["/actors"]}><Actors /></Route>
+                <Route path={["/actors/:actorId?"]}><Actors /></Route>
                 <Route path={["/scripts"]}><Scripts /></Route>
                 <Route path="*"><div>No match</div></Route>
             </Switch>

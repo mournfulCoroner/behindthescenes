@@ -1,16 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { actorGetters, getActors, setActors } from "../../bll/reducers/reducerActor";
 import { connect } from "react-redux";
 import { Col, Container, Row } from "react-bootstrap";
 import "./Actors.css";
+import { NavLink } from "react-router-dom";
+import { compose } from "redux";
+import ActorInfo from "./Actor/ActorInfo";
 
 const Actors = (props) => {
     useEffect(() => {
         props.setDataActors();
     }, []);
 
+    const [activeActor, setActiveActor] = useState(-1);
 
-    let actors = props.actors.map((actor) => <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</div>)
+
+    let actors = props.actors.map((actor) => <NavLink onClick={clickOnActor} to={`/actors/${actor.idActor}`} className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</NavLink>)
+
+    const clickOnActor = (e) => {
+        e.preventDefault();
+        console.log(e.target)
+    }
 
     return (
         <>
@@ -20,11 +30,12 @@ const Actors = (props) => {
                             <Col xs={4}>
                                 <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                                     <div className="list-group list-group-flush border-bottom scrollarea">
+                                    <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div>
                                         {actors}
                                     </div>
                                 </div></Col>
                             <Col xs={8}>
-                                <div>Контент</div>
+                                <ActorInfo />
                             </Col>
                         </Row>
                 </div>

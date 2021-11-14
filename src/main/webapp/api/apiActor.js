@@ -7,7 +7,7 @@ export const apiActor = {
     searchActor(name) {
         return axios.get(`/actors/${name}`).then(responce => responce.data)
     },
-    createActor(name, authorization) {
+    createActor(authorization, name) {
         return axios.post('/actors', JSON.stringify(name), {
             headers:
             {
@@ -16,11 +16,20 @@ export const apiActor = {
             }
         }).then(responce => responce.json())
     },
-    deleteActor(id, authorization) {
+    deleteActor(authorization, id) {
         return axios.delete(`/actors/${id}`, {
             headers:
                 { "Authorization": authorization }
         }.then(responce => responce.json()))
+    },
+    updateActor(authorization, name) {
+        return axios.put(`/actors/${id}`, JSON.stringify(name), {
+            headers:
+            {
+                "Content-Type": "application/json",
+                "Authorization": authorization
+            }
+        }).then(responce => responce.json())
     },
     getActorRoles(id) {
         return axios.get(`/actors/${id}/roles`).then(responce => responce.data);

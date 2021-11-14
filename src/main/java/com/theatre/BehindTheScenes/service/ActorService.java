@@ -31,10 +31,11 @@ public class ActorService {
         return actorRepository.save(actor);
     }
 
-    public void update(int id, String name) {
+    public Actor update(int id, String name) {
         if(actorRepository.findById(id).isPresent()){
-            actorRepository.save(new Actor(id, name));
+            return actorRepository.save(new Actor(id, name));
         }
+        return null;
     }
 
     public boolean delete(int id) {

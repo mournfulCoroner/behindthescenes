@@ -79,8 +79,8 @@ public class ActorController {
         User user = userService.getUserByAuthorization(authorization);
 
         if(user != null){
-            actorService.update(id, name);
-            return new ResponseEntity<>(HttpStatus.OK);
+            Actor updActor = actorService.update(id, name);
+            return new ResponseEntity<>(updActor, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -104,7 +104,7 @@ public class ActorController {
 
         return roles != null &&  !roles.isEmpty()
                 ? new ResponseEntity<>(roles, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
 

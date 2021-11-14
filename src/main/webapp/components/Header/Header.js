@@ -53,8 +53,7 @@ const Header = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    nickname: userGetters.getNickname(state),
-    avatar: userGetters.getAvatar(state)
+    nickname: userGetters.getNickname(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

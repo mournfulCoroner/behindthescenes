@@ -75,10 +75,6 @@ export const userGetters = {
 
     getAuthorization(state) {
         return state.reducerUser.authorization;
-    },
-
-    getAvatar(state) {
-        return state.reducerUser.avatar;
     }
 }
 

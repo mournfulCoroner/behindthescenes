@@ -1,5 +1,7 @@
 package com.theatre.BehindTheScenes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -65,6 +67,7 @@ public class Role {
         return result;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roleByRoleIdRole")
     public Collection<ActorRole> getActorRolesByIdRole() {
         return actorRolesByIdRole;
@@ -74,6 +77,7 @@ public class Role {
         this.actorRolesByIdRole = actorRolesByIdRole;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "roleByRoleIdRole")
     public Collection<Replic> getReplicsByIdRole() {
         return replicsByIdRole;
@@ -83,6 +87,7 @@ public class Role {
         this.replicsByIdRole = replicsByIdRole;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "Script_idScript", referencedColumnName = "idScript", nullable = false, insertable = false, updatable = false)
     public Script getScriptByScriptIdScript() {
