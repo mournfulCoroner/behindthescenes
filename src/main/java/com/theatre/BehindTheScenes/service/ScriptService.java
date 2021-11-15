@@ -3,9 +3,11 @@ package com.theatre.BehindTheScenes.service;
 import com.theatre.BehindTheScenes.dao.ScriptRepository;
 import com.theatre.BehindTheScenes.model.Script;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ScriptService {
     private final ScriptRepository scriptRepository;
 
