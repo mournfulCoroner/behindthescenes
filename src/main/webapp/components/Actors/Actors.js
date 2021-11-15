@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { actorGetters, getActors, setActors } from "../../bll/reducers/reducerActor";
+import { actorGetters, getActors, createActor } from "../../bll/reducers/reducerActor";
 import { connect } from "react-redux";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col,  Row } from "react-bootstrap";
 import "./Actors.css";
 import { NavLink } from "react-router-dom";
-import { compose } from "redux";
+import TextField from "@material-ui/core/TextField";
+import { Modal, Button } from "react-bootstrap";
 import ActorInfo from "./Actor/ActorInfo";
 import { userGetters } from "../../bll/reducers/reducerUser";
 
@@ -13,32 +14,63 @@ const Actors = (props) => {
         props.setDataActors();
     }, []);
 
+    const [actorName, setActorName] = useState("");
+    const [addActorModal, setAddActorModal] = useState(false);
 
-    let actors = props.actors.map((actor) => <NavLink to={`/actors/${actor.idActor}`} className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</NavLink>)
+    let actors = props.actors.map((actor) => <NavLink to={`/actors/${actor.idActor}`} onClick={() => setActorName(actor.name)} className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</NavLink>)
 
-    const clickAddActor = (e) => {
-        alert("Добавление актера")
-        console.log(e.target)
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const loginForm = e.currentTarget;
+        props.addActor(props.authorization, loginForm.elements.name.value);
+        setAddActorModal(false);
     }
+
 
     return (
         <>
             <div>
                 <div className="album border bg-light rounded mx-auto actors-block">
-                        <Row style={{height: "100%"}}>
-                            <Col xs={4}>
-                                <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-                                    <div className="list-group list-group-flush border-bottom scrollarea">
-                                    {props.authorization ? <div onClick={clickAddActor} className="add-actor-button shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div> : null}
-                                        {actors}
-                                    </div>
-                                </div></Col>
-                            <Col xs={8}>
-                                <ActorInfo />
-                            </Col>
-                        </Row>
+                    <Row style={{ height: "100%" }}>
+                        <Col xs={4}>
+                            <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+                                <div className="list-group list-group-flush border-bottom scrollarea">
+                                    {props.authorization ? <div onClick={() => setAddActorModal(true)} className="add-actor-button shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div> : null}
+                                    {actors}
+                                </div>
+                            </div></Col>
+                        <Col xs={8}>
+                            <ActorInfo name={actorName} />
+                        </Col>
+                    </Row>
                 </div>
             </div>
+
+
+            <Modal show={addActorModal} onHide={() => setAddActorModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Добавление актёра</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                        onSubmit={onSubmit}
+                        action="#"
+                    >
+                        <TextField
+                            label="Имя"
+                            name="name"
+                        />
+
+                        <div className="login__form-element">
+                            <Button className="m-3 px-3" variant="dark" type="submit">Создать</Button>
+
+                            <Button variant="secondary" onClick={() => setAddActorModal(false)}>
+                                Отмена
+                            </Button>
+                        </div>
+                    </form>
+                </Modal.Body>
+            </Modal>
         </>
     );
 }
@@ -51,6 +83,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setDataActors() {
         dispatch(getActors());
+    },
+    addActor(authorization, name) {
+        dispatch(createActor(authorization, name))
     }
 });
 
