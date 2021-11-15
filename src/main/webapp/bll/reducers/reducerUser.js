@@ -11,6 +11,7 @@ const initialState = {
 const LOGIN = "LOGIN";
 const LOGIN_ERROR = "LOGIN_ERROR";
 const REGISTRATION_ERROR = "REGISTRATION_ERROR";
+const LOGOUT = "LOGOUT";
 
 const reducerUser = (state=initialState, action) => {
     switch (action.type) {
@@ -28,8 +29,13 @@ const reducerUser = (state=initialState, action) => {
             return {
                 ...state,
                 authorization: action.authorization,
-                nickname: action.nickname,
-                avatar: action.avatar
+                nickname: action.nickname
+            }
+        case LOGOUT:
+            return {
+                ...state,
+                authorization: "",
+                nickname: ""
             }
         default: {
             return state;
@@ -52,12 +58,16 @@ export const userActionCreator = {
             registrationError
         }
     },
-    login(authorization, nickname, avatar) {
+    login(authorization, nickname) {
         return {
             type: LOGIN,
             authorization,
-            nickname,
-            avatar
+            nickname
+        }
+    },
+    logout(){
+        return {
+            type: LOGOUT
         }
     }
 }
@@ -72,7 +82,6 @@ export const userGetters = {
     getNickname(state) {
         return state.reducerUser.nickname;
     },
-
     getAuthorization(state) {
         return state.reducerUser.authorization;
     }
@@ -101,6 +110,19 @@ export const userThunkCreators = {
             } catch (e) {
                 dispatch(userActionCreator.changeRegistrationError(e.message));
             }
+        }
+    },
+
+    getNickname(authorization) {
+        return async (dispatch) => {
+            dispatch(userActionCreator.login(authorization, await apiUser.getNickname(authorization)))
+        }
+    },
+
+    logout() {
+        return (dispatch) => {
+            dispatch(userActionCreator.logout());
+            localStorage.removeItem("token");
         }
     }
 }

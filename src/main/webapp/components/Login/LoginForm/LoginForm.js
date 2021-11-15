@@ -5,9 +5,10 @@ import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import { Modal, Button } from "react-bootstrap";
 import { loginActionCreators } from "../../../bll/reducers/reducerLogin";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 
-const LoginForm = ({ isVisible, goToRegistrationForm, login, loginError, deleteLoginError, toggleOpenLogin }) => {
+const LoginForm = ({ isVisible, goToRegistrationForm, login, loginError, deleteLoginError, toggleOpenLogin, setDisabledMenu }) => {
     const onClickGoTo = (e) => {
         e.preventDefault();
         goToRegistrationForm();
@@ -16,6 +17,7 @@ const LoginForm = ({ isVisible, goToRegistrationForm, login, loginError, deleteL
     const onSubmit = async (e) => {
         e.preventDefault();
         const loginForm = e.currentTarget;
+        setDisabledMenu(false);
         login(loginForm.elements.nickname.value, loginForm.elements.password.value);
     }
 

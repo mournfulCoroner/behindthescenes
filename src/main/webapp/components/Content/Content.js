@@ -2,7 +2,6 @@ import React from "react";
 import "./content.css";
 import {Route, Switch} from "react-router-dom";
 import Home from "../Home/Home";
-import UserProfile from "../UserProfile/UserProfile";
 import Actors from "../Actors/Actors";
 import Scripts from "../Scripts/Scripts";
 
@@ -11,7 +10,6 @@ const Content = (props) => {
         <section className="content">
             <Switch>
                 <Route path={["/home"]}><Home/></Route>
-                <Route path={["/user/:nickname"]}><UserProfile /></Route>
                 <Route path={["/actors/:actorId?"]}><Actors /></Route>
                 <Route path={["/scripts"]}><Scripts /></Route>
                 <Route path="*"><div>No match</div></Route>

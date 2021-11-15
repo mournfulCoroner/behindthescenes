@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { actorGetters, getRoles } from "../../../bll/reducers/reducerActor";
+import { Button } from "react-bootstrap"
 
 const ActorInfo = (props) => {
 
@@ -18,7 +19,11 @@ const ActorInfo = (props) => {
     let roles = props.roles.map((role) => <div key={role.idRole}>{role.roleName}</div>)
     return (
         <>
-        {roles ? roles : null}
+        {roles ? 
+        <div>
+            {roles}
+            <Button variant="outline-danger">Удалить актёра</Button>
+        </div> : null}
         </>
     );
 }

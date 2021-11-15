@@ -21,7 +21,7 @@ const checkSize = (text) => {
 }
 
 const RegistrationForm = ({ isVisible, goToLoginForm, registration,
-    registrationError, deleteRegistrationError, closeForms
+    registrationError, deleteRegistrationError, closeForms, setDisabledMenu
 }) => {
     const [errorNickname, setErrorNickname] = useState("");
     const [sizeErrorPass1, setSizeErrorPass1] = useState("");
@@ -65,6 +65,8 @@ const RegistrationForm = ({ isVisible, goToLoginForm, registration,
             setErrorNotSamePass("Пароли должны быть одинаковыми");
             return;
         }
+
+        setDisabledMenu(false);
 
         registration(
             loginForm.elements.nickname.value,

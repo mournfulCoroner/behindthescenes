@@ -1,3 +1,5 @@
+import * as axios from 'axios';
+
 const apiUser = {
     async login(nickname, password) {
         const response = await fetch("/users/my_login", {
@@ -5,7 +7,7 @@ const apiUser = {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({nickname, password})
+            body: JSON.stringify({ nickname, password })
         });
 
         if (!response.ok) {
@@ -13,7 +15,7 @@ const apiUser = {
         }
 
         let result = await response.json();
-        localStorage.setItem(nickname, result.authorization);
+        localStorage.setItem("token", result.authorization);
         return result;
     },
 
@@ -23,15 +25,27 @@ const apiUser = {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({nickname, password})
+            body: JSON.stringify({ nickname, password })
         });
 
         if (!response.ok) {
             throw Error("Пользователь с таким ником уже есть");
         }
 
-        return await response.json();
-    }
+        let result = await response.json();
+        localStorage.setItem("token", result.authorization);
+        return result;
+    },
+
+    getNickname(authorization) {
+        return axios.get("/users/nickname", {
+            headers:
+            {
+                "Content-Type": "application/json",
+                "Authorization": authorization
+            }
+        }).then(responce => responce.data)
+    },
 }
 
 export default apiUser;

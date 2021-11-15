@@ -11,6 +11,7 @@ const Login = (props) => {
     return (
             <section>
                 <LoginForm
+                    setDisabledMenu={props.setDisabledMenu}
                     isVisible={props.isOpen}
                     goToRegistrationForm={() => {
                         setIsActiveLoginForm(true);
@@ -18,6 +19,7 @@ const Login = (props) => {
                     }}
                 />
                 <RegistrationForm
+                    setDisabledMenu={props.setDisabledMenu}
                     isVisible={isActiveLoginForm}
                     goToLoginForm={() => {
                         setIsActiveLoginForm(false);
