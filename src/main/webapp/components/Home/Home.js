@@ -9,8 +9,8 @@ const Home = (props) => {
             <section className="py-5 text-center container">
                 <div className="row py-lg-5">
                     <div className="col-lg-6 col-md-8 mx-auto">
-                        <h1 className="fw-light">Заголовок</h1>
-                        <p className="lead text-muted">Длинное приветствие которое я не хочу сейчас расписывать и даже не знаю зачем оно тут нужно</p>
+                        <h1 className="fw-light">Управление театром</h1>
+                        <p className="lead text-muted">Приложение для руководства театром с удобным интерфейсом, в котором вы сможете найти всю необходимую информацию! </p>
                     </div>
                 </div>
             </section>
@@ -24,9 +24,9 @@ const Home = (props) => {
                                     <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">
                                         </text></svg>
                                 <div className="card-body">
-                                    <p className="card-text text-dark">Текст</p>
+                                    <p className="card-text text-dark">Сценарии</p>
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <small className="text-muted me-ms-auto">Клик!</small>
+                                        <small className="text-muted me-ms-auto">Сценарии, записанные в базу театра</small>
                                     </div>
                                 </div>
                             </div>
@@ -38,9 +38,9 @@ const Home = (props) => {
                                     <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">
                                         </text></svg>
                                 <div className="card-body">
-                                    <p className="card-text text-dark">Текст</p>
+                                    <p className="card-text text-dark">Актёры</p>
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <small className="text-muted me-ms-auto">Клик!</small>
+                                        <small className="text-muted me-ms-auto">Весь штат театра по клику!</small>
                                     </div>
                                 </div>
                             </div>
@@ -52,9 +52,9 @@ const Home = (props) => {
                                     <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">
                                         </text></svg>
                                 <div className="card-body">
-                                    <p className="card-text text-dark">Текст</p>
+                                    <p className="card-text text-dark">Расписание</p>
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <small className="text-muted me-ms-auto">Клик!</small>
+                                        <small className="text-muted me-ms-auto">Выступления в формате календаря</small>
                                     </div>
                                 </div>
                             </div>

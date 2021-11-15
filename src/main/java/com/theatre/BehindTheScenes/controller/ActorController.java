@@ -26,7 +26,7 @@ public class ActorController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/actors")
+    @PostMapping(value = "/api/actors")
     public ResponseEntity<Actor> create(
             @RequestHeader("Authorization") String authorization,
             @RequestBody Actor actor
@@ -42,7 +42,7 @@ public class ActorController {
         }
     }
 
-    @GetMapping(value = "/actors/{name}")
+    @GetMapping(value = "/api/actors/{name}")
     public ResponseEntity<?> findByName(
             @PathVariable(name = "name") String name
     ) throws UnsupportedEncodingException {
@@ -54,7 +54,7 @@ public class ActorController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/actors/{id}")
+    @DeleteMapping(value = "/api/actors/{id}")
     public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
                                      @PathVariable(name = "id") int id) throws UnsupportedEncodingException {
 
@@ -72,7 +72,8 @@ public class ActorController {
     }
 
 
-    @PutMapping(value = "/actors/{id}")
+
+    @PutMapping(value = "/api/actors/{id}")
     public ResponseEntity<?> update(@RequestHeader("Authorization") String authorization,
                                     @PathVariable(name = "id") int id, @RequestBody String name) throws UnsupportedEncodingException {
 
@@ -87,7 +88,7 @@ public class ActorController {
         }
     }
 
-    @GetMapping(value = "/actors")
+    @GetMapping(value = "/api/actors")
     public ResponseEntity<List<Actor>> read() throws UnsupportedEncodingException {
 
         final List<Actor> actors = actorService.findAll();
@@ -97,7 +98,7 @@ public class ActorController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/actors/{id}/roles")
+    @GetMapping(value = "/api/actors/{id}/roles")
     public ResponseEntity<List<Role>> readActorRoles(@PathVariable(name = "id") int id) throws UnsupportedEncodingException {
 
         final List<Role> roles = actorService.getRoles(id);

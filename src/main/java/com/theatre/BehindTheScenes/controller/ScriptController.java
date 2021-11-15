@@ -1,6 +1,5 @@
 package com.theatre.BehindTheScenes.controller;
 
-import com.theatre.BehindTheScenes.dto.ScriptDTO;
 import com.theatre.BehindTheScenes.model.Script;
 import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.service.ScriptService;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+@RestController
 public class ScriptController {
     private final ScriptService scriptService;
     private final UserService userService;
@@ -24,7 +24,7 @@ public class ScriptController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/scripts")
+    @PostMapping(value = "/api/scripts")
     public ResponseEntity<Script> create(
             @RequestHeader("Authorization") String authorization,
             @RequestBody Script script
@@ -41,7 +41,7 @@ public class ScriptController {
         }
     }
 
-    @GetMapping(value = "/scripts/{name}")
+    @GetMapping(value = "/api/scripts/{name}")
     public ResponseEntity<?> findByName(
             @PathVariable(name = "name") String name
     ) throws UnsupportedEncodingException {
@@ -53,40 +53,7 @@ public class ScriptController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/scripts/{id}")
-    public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
-                                     @PathVariable(name = "id") int id) throws UnsupportedEncodingException {
-
-        User user = userService.getUserByAuthorization(authorization);
-
-        if(user != null){
-            final boolean deleted = scriptService.delete(id);
-            return deleted
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
-
-
-    @PutMapping(value = "/scripts/{id}")
-    public ResponseEntity<?> update(@RequestHeader("Authorization") String authorization,
-                                    @PathVariable(name = "id") int id, @RequestBody ScriptDTO scriptDTO) throws UnsupportedEncodingException {
-
-        User user = userService.getUserByAuthorization(authorization);
-
-        if(user != null){
-            scriptService.update(scriptDTO.getIdScript(), scriptDTO.getTitle(), scriptDTO.getAuthor());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
-
-    @GetMapping(value = "/scripts")
+    @GetMapping(value = "/api/scripts")
     public ResponseEntity<List<Script>> read() throws UnsupportedEncodingException {
 
         final List<Script> scripts = scriptService.findAll();
