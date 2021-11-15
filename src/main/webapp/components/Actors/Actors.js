@@ -6,6 +6,7 @@ import "./Actors.css";
 import { NavLink } from "react-router-dom";
 import { compose } from "redux";
 import ActorInfo from "./Actor/ActorInfo";
+import { userGetters } from "../../bll/reducers/reducerUser";
 
 const Actors = (props) => {
     useEffect(() => {
@@ -28,7 +29,7 @@ const Actors = (props) => {
                             <Col xs={4}>
                                 <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                                     <div className="list-group list-group-flush border-bottom scrollarea">
-                                    <div onClick={clickAddActor} className="shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div>
+                                    {props.authorization ? <div onClick={clickAddActor} className="add-actor-button shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div> : null}
                                         {actors}
                                     </div>
                                 </div></Col>
@@ -43,7 +44,8 @@ const Actors = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    actors: actorGetters.getActors(state)
+    actors: actorGetters.getActors(state),
+    authorization: userGetters.getAuthorization(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

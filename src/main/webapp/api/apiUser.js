@@ -41,7 +41,6 @@ const apiUser = {
         return axios.get("/users/nickname", {
             headers:
             {
-                "Content-Type": "application/json",
                 "Authorization": authorization
             }
         }).then(responce => responce.data)

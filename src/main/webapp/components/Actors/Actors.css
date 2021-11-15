@@ -14,3 +14,8 @@
     box-shadow: inset 0px 1px 1px 0px;
     height: 100%;
 }
+
+.add-actor-button{
+    background-color: var(--bs-gray-100) !important;
+    cursor: pointer;
+}

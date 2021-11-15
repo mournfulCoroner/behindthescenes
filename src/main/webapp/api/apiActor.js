@@ -14,13 +14,13 @@ export const apiActor = {
                 "Content-Type": "application/json",
                 "Authorization": authorization
             }
-        }).then(responce => responce.json())
+        }).then(responce => responce.data)
     },
     deleteActor(authorization, id) {
         return axios.delete(`/api/actors/${id}`, {
             headers:
                 { "Authorization": authorization }
-        }.then(responce => responce.json()))
+        }).then(responce => responce.data)
     },
     updateActor(authorization, name) {
         return axios.put(`/api/actors/${id}`, JSON.stringify(name), {
@@ -29,7 +29,7 @@ export const apiActor = {
                 "Content-Type": "application/json",
                 "Authorization": authorization
             }
-        }).then(responce => responce.json())
+        }).then(responce => responce.data)
     },
     getActorRoles(id) {
         return axios.get(`/api/actors/${id}/roles`).then(responce => responce.data);

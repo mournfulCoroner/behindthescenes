@@ -9,6 +9,7 @@ import com.theatre.BehindTheScenes.model.ActorRolePK;
 import com.theatre.BehindTheScenes.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ActorService {
         return actorRepository.save(actor);
     }
 
+    @Transactional
     public Actor update(int id, String name) {
         if(actorRepository.findById(id).isPresent()){
             return actorRepository.save(new Actor(id, name));
@@ -38,6 +40,7 @@ public class ActorService {
         return null;
     }
 
+    @Transactional
     public boolean delete(int id) {
         long count = actorRepository.deleteByIdActor(id);
         return count > 0;
@@ -51,10 +54,12 @@ public class ActorService {
         return actorRepository.findAll();
     }
 
+    @Transactional
     public void addRole(int actorId, int roleId){
         actorRoleRepository.save(new ActorRole(actorId, roleId));
     }
 
+    @Transactional
     public void deleteRole(int actorId, int roleId){
         actorRoleRepository.deleteById(new ActorRolePK(actorId, roleId));
     }

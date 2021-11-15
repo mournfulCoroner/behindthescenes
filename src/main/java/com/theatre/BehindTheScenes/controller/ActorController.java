@@ -32,7 +32,6 @@ public class ActorController {
             @RequestBody Actor actor
     ) throws IOException {
         User user = userService.getUserByAuthorization(authorization);
-        System.out.println(user.getNickname() + " " + user.getPassword());
         if(user != null){
             Actor newActor = actorService.create(actor);
             return new ResponseEntity<>(newActor, HttpStatus.CREATED);
@@ -105,7 +104,7 @@ public class ActorController {
 
         return roles != null &&  !roles.isEmpty()
                 ? new ResponseEntity<>(roles, HttpStatus.OK)
-                : new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 
