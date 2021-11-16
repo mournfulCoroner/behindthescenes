@@ -55,7 +55,7 @@ export const getScripts = () => async (dispatch) => {
     dispatch(setScripts(await apiScript.getScripts()))
 }
 export const getReplics = (id) => async (dispatch) => {
-    let replics = await apiScript.getReplics(id);
+    let replics = await apiScript.getScriptReplics(id);
     dispatch(setReplics(replics ? replics : []));
 }
 export const getScript = (id) => async (dispatch) => {

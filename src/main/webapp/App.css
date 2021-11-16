@@ -19,7 +19,26 @@ html, body, #root{
 }
 
 .content-container{
-    grid-template-rows: 13% 87%;
+    grid-auto-rows: minmax(var(--height-header), auto);
+}
+
+@media(max-width: 806px){
+    .content-container{
+        gap: 1rem !important;
+    }
+}
+
+.list-group-item.active{
+    background-color: var(--bs-dark) !important;
+    border-color: var(--bs-light) !important;
+}
+
+.nav-link {
+    color: var(--bs-dark) !important;
+}
+
+.scrollarea{
+    max-height: 86vh;
 }
 
 body {

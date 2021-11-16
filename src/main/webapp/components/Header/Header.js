@@ -37,7 +37,7 @@ const Header = (props) => {
             <Login setDisabledMenu={setDisabledMenu} />
             <Navbar bg="light" variant="light" className="rounded mb-auto d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
                 <Navbar.Brand className="ms-3">
-                    <Link to="/home" className="nav-link"><p className="header__title text-dark fs-4">Behind The Scenes</p></Link>
+                    <Link to="/home" className="nav-link"><p className="header__title text-dark fs-4 mb-0">Behind The Scenes</p></Link>
                 </Navbar.Brand>
 
                 <Nav className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 fs-5">

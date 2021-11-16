@@ -12,7 +12,7 @@ const App = (props) => {
 
     return (
         <div className="App" className="d-flex h-100 text-center text-dark">
-            <div className="cover-container d-grid w-100 h-100 p-3 mx-auto content-container">
+            <div className="cover-container d-grid w-100 h-100 p-3 mx-auto content-container ">
                 <Header/>
                 <Content/>
             </div>

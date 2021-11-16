@@ -30,7 +30,7 @@ const Actors = (props) => {
 
     return (
         <>
-                <div className="album border bg-light rounded mx-auto h-100">
+                <div className="album overflow-hidden border bg-light rounded mx-auto h-100">
                     <Row style={{ height: "100%" }}>
                         <Col xs={4} className="pe-0">
                             <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
