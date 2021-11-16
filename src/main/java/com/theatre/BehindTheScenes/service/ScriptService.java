@@ -1,11 +1,14 @@
 package com.theatre.BehindTheScenes.service;
 
 import com.theatre.BehindTheScenes.dao.ScriptRepository;
-import com.theatre.BehindTheScenes.model.Script;
+import com.theatre.BehindTheScenes.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ScriptService {
@@ -42,5 +45,20 @@ public class ScriptService {
     public List<Script> findAll(){
         return scriptRepository.findAll();
     }
+
+    public Script getScriptInfo(int scriptId){
+        return scriptRepository.findById(scriptId).orElse(null);
+    }
+
+    public List<Replic> getScript(int scriptId){
+        List<Role> roles = (List<Role>) Objects.requireNonNull(scriptRepository.findById(scriptId).orElse(null)).getRolesByIdScript();
+        List<Replic> replics = new ArrayList<>();
+        for(Role role: roles){
+            replics.addAll(role.getReplicsByIdRole());
+        }
+        replics.sort(Comparator.comparingInt(Replic::getReplicNumber));
+        return replics;
+    }
+
 
 }

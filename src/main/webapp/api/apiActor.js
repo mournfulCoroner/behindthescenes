@@ -33,5 +33,8 @@ export const apiActor = {
     },
     getActorRoles(id) {
         return axios.get(`/api/actors/${id}/roles`).then(responce => responce.data);
+    },
+    getActor(id) {
+        return axios.get(`/api/actors/${id}`).then(responce => responce.data);
     }
 }

@@ -11,7 +11,7 @@ const Content = (props) => {
             <Switch>
                 <Route path={["/home"]}><Home/></Route>
                 <Route path={["/actors/:actorId?"]}><Actors /></Route>
-                <Route path={["/scripts"]}><Scripts /></Route>
+                <Route path={["/scripts/:scriptId?"]}><Scripts /></Route>
                 <Route path="*"><div>No match</div></Route>
             </Switch>
         </section>

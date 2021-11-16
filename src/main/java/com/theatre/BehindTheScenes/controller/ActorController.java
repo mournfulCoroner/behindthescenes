@@ -2,6 +2,7 @@ package com.theatre.BehindTheScenes.controller;
 
 import com.theatre.BehindTheScenes.model.Actor;
 import com.theatre.BehindTheScenes.model.Role;
+import com.theatre.BehindTheScenes.model.Script;
 import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.service.ActorService;
 import com.theatre.BehindTheScenes.service.UserService;
@@ -41,7 +42,16 @@ public class ActorController {
         }
     }
 
-    @GetMapping(value = "/api/actors/{name}")
+    @GetMapping(value = "/api/actors/{id}")
+    public ResponseEntity<Actor> readOne(@PathVariable(name = "id") int id) {
+
+        final Actor actor = actorService.find(id);
+        return actor != null
+                ? new ResponseEntity<>(actor, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/api/actors/search/{name}")
     public ResponseEntity<?> findByName(
             @PathVariable(name = "name") String name
     ) throws UnsupportedEncodingException {
@@ -69,8 +79,6 @@ public class ActorController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
-
-
 
     @PutMapping(value = "/api/actors/{id}")
     public ResponseEntity<?> update(@RequestHeader("Authorization") String authorization,

@@ -17,7 +17,8 @@ const Actors = (props) => {
     const [actorName, setActorName] = useState("");
     const [addActorModal, setAddActorModal] = useState(false);
 
-    let actors = props.actors.map((actor) => <NavLink to={`/actors/${actor.idActor}`} onClick={() => setActorName(actor.name)} className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</NavLink>)
+    let actors = props.actors.map((actor) => <NavLink to={`/actors/${actor.idActor}`} onClick={() => setActorName(actor.name)} 
+    className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</NavLink>)
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -29,23 +30,21 @@ const Actors = (props) => {
 
     return (
         <>
-            <div>
-                <div className="album border bg-light rounded mx-auto actors-block">
+                <div className="album border bg-light rounded mx-auto h-100">
                     <Row style={{ height: "100%" }}>
-                        <Col xs={4}>
+                        <Col xs={4} className="pe-0">
                             <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                                 <div className="list-group list-group-flush border-bottom scrollarea">
                                     {props.authorization ? <div onClick={() => setAddActorModal(true)} className="add-actor-button shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div> : null}
                                     {actors}
                                 </div>
                             </div></Col>
-                        <Col xs={8}>
+                        <Col xs={8} className="ps-0">
                             <ActorInfo name={actorName} />
                         </Col>
                     </Row>
                 </div>
-            </div>
-
+            
 
             <Modal show={addActorModal} onHide={() => setAddActorModal(false)}>
                 <Modal.Header closeButton>

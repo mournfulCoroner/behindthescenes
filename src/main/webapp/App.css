@@ -14,6 +14,14 @@ button{
     padding: 0;
 }
 
+html, body, #root{
+    height: 100%;
+}
+
+.content-container{
+    grid-template-rows: 13% 87%;
+}
+
 body {
     font-size: 12pt;
     background-color: rgb(212, 217, 193);

@@ -6,10 +6,12 @@ const UPDATE_ACTOR = "UPDATE_ACTOR";
 const SET_ACTOR_ROLES = "SET_ACTOR_ROLES";
 const REMOVE_ACTOR = "REMOVE_ACTOR";
 const CLEAN_ROLES = "CLEAN_ROLES";
+const SET_ACTOR = "SET_ACTOR";
 
 let initialState = {
     actors: [],
-    actorRoles: []
+    actorRoles: [],
+    actor: null
 };
 
 const reducerActor = (state = initialState, action) => {
@@ -48,6 +50,11 @@ const reducerActor = (state = initialState, action) => {
                 ...state,
                 actorRoles: []
             }
+        case SET_ACTOR:
+            return {
+                ...state,
+                actor: action.actor
+            }
         default:
             return state;
     }
@@ -59,6 +66,9 @@ export const actorGetters = {
     },
     getRoles(state){
         return state.reducerActor.actorRoles;
+    },
+    getActor(state){
+        return state.reducerActor.actor;
     }
 }
 
@@ -68,6 +78,7 @@ const updateActor = (id, name) => ({type: UPDATE_ACTOR, id, name});
 const setRoles = (actorRoles) => ({type: SET_ACTOR_ROLES, actorRoles});
 const removeActor = (id) => ({type: REMOVE_ACTOR, id})
 const cleanRoles = () => ({type: CLEAN_ROLES })
+const setActor = (actor) => ({type: SET_ACTOR, actor}) 
 
 
 export const getActors = () => async (dispatch) => {
@@ -90,6 +101,9 @@ export const deleteActor = (authorization, id) => async (dispatch) => {
 }
 export const removeRoles = () => (dispatch) => {
     dispatch(cleanRoles());
+}
+export const getActor = (actorId) => async (dispatch) => {
+    dispatch(setActor(await apiActor.getActor(actorId)))
 }
 
 

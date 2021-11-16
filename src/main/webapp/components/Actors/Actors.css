@@ -1,7 +1,3 @@
-.actors-block {
-    margin-top: 3vh !important;
-    height: 83vh;
-}
 
 @media(max-width: 900px) {
     .actors-block {

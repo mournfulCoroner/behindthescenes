@@ -1,7 +1,7 @@
 package com.theatre.BehindTheScenes.controller;
 
+import com.theatre.BehindTheScenes.model.Replic;
 import com.theatre.BehindTheScenes.model.Script;
-import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.service.ScriptService;
 import com.theatre.BehindTheScenes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +24,7 @@ public class ScriptController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/api/scripts")
-    public ResponseEntity<Script> create(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody Script script
-    ) throws IOException {
-        User user = userService.getUserByAuthorization(authorization);
-
-
-        if(user != null){
-            Script newScript = scriptService.create(script);
-            return new ResponseEntity<>(newScript, HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-    }
-
-    @GetMapping(value = "/api/scripts/{name}")
+    @GetMapping(value = "/api/scripts/search/{name}")
     public ResponseEntity<?> findByName(
             @PathVariable(name = "name") String name
     ) throws UnsupportedEncodingException {
@@ -60,6 +43,27 @@ public class ScriptController {
 
         return scripts != null &&  !scripts.isEmpty()
                 ? new ResponseEntity<>(scripts, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    @GetMapping(value = "/api/scripts/{id}/replics")
+    public ResponseEntity<List<Replic>> readScript(@PathVariable(name = "id") int id) {
+
+        final List<Replic> replics = scriptService.getScript(id);
+
+        return replics != null &&  !replics.isEmpty()
+                ? new ResponseEntity<>(replics, HttpStatus.OK)
+                : new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/api/scripts/{id}")
+    public ResponseEntity<Script> readOne(@PathVariable(name = "id") int id) {
+
+        final Script script = scriptService.getScriptInfo(id);
+
+        return script != null
+                ? new ResponseEntity<>(script, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
