@@ -8,7 +8,7 @@ export const apiActor = {
         return axios.get(`/api/actors/${name}`).then(responce => responce.data)
     },
     createActor(authorization, name) {
-        return axios.post('/api/actors', JSON.stringify({name}), {
+        return axios.post('/api/actors', JSON.stringify({ name }), {
             headers:
             {
                 "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const apiActor = {
         }).then(responce => responce.data)
     },
     updateActor(authorization, name) {
-        return axios.put(`/api/actors/${id}`, JSON.stringify({name}), {
+        return axios.put(`/api/actors/${id}`, JSON.stringify({ name }), {
             headers:
             {
                 "Content-Type": "application/json",
@@ -36,5 +36,20 @@ export const apiActor = {
     },
     getActor(id) {
         return axios.get(`/api/actors/${id}`).then(responce => responce.data);
+    },
+    addRole(authorization, actorId, roleId) {
+        return axios.post("/api/actors/roles", JSON.stringify({ actorId, roleId }), {
+            headers:
+            {
+                "Content-Type": "application/json",
+                "Authorization": authorization
+            }
+        }).then(responce => responce.data)
+    },
+    removeRole(authorization, actorId, roleId) {
+        return axios.delete(`/api/actors/${actorId}/roles/${roleId}`, {
+            headers:
+                { "Authorization": authorization }
+        })
     }
 }

@@ -7,6 +7,8 @@ const SET_ACTOR_ROLES = "SET_ACTOR_ROLES";
 const REMOVE_ACTOR = "REMOVE_ACTOR";
 const CLEAN_ROLES = "CLEAN_ROLES";
 const SET_ACTOR = "SET_ACTOR";
+const ADD_ROLE = "ADD_ROLE";
+const REMOVE_ROLE = "REMOVE_ROLE"
 
 let initialState = {
     actors: [],
@@ -55,6 +57,16 @@ const reducerActor = (state = initialState, action) => {
                 ...state,
                 actor: action.actor
             }
+        case ADD_ROLE:
+            return {
+                ...state,
+                actorRoles: [...state.actorRoles, action.role]
+            }
+        case REMOVE_ROLE:
+            return {
+                ...state,
+                actorRoles: state.actorRoles.filter((role) => role.roleId != action.roleId)
+            }
         default:
             return state;
     }
@@ -79,6 +91,8 @@ const setRoles = (actorRoles) => ({type: SET_ACTOR_ROLES, actorRoles});
 const removeActor = (id) => ({type: REMOVE_ACTOR, id})
 const cleanRoles = () => ({type: CLEAN_ROLES })
 const setActor = (actor) => ({type: SET_ACTOR, actor}) 
+const addRole = (role) => ({type: ADD_ROLE, role})
+const removeRole = (role) => ({type: REMOVE_ROLE, roleId})
 
 
 export const getActors = () => async (dispatch) => {
@@ -104,6 +118,14 @@ export const removeRoles = () => (dispatch) => {
 }
 export const getActor = (actorId) => async (dispatch) => {
     dispatch(setActor(await apiActor.getActor(actorId)))
+}
+export const createRole = (authorization, actorId, roleId) => async (dispatch) => {
+    role = await apiActor.addRole(authorization, actorId, roleId);
+    dispatch(addRole(role))
+}
+export const deleteRole = (authorization, actorId, roleId) => async (dispatch) => {
+    await apiActor.removeRole(authorization, actorId, roleId);
+    dispatch(removeRole(roleId));
 }
 
 

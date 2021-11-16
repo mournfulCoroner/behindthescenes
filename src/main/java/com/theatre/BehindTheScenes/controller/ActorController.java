@@ -1,9 +1,6 @@
 package com.theatre.BehindTheScenes.controller;
 
-import com.theatre.BehindTheScenes.model.Actor;
-import com.theatre.BehindTheScenes.model.Role;
-import com.theatre.BehindTheScenes.model.Script;
-import com.theatre.BehindTheScenes.model.User;
+import com.theatre.BehindTheScenes.model.*;
 import com.theatre.BehindTheScenes.service.ActorService;
 import com.theatre.BehindTheScenes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +110,37 @@ public class ActorController {
         return roles != null &&  !roles.isEmpty()
                 ? new ResponseEntity<>(roles, HttpStatus.OK)
                 : new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/api/actors/roles")
+    public ResponseEntity<Role> addRole(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody ActorRole actorRole
+    ) throws IOException {
+        User user = userService.getUserByAuthorization(authorization);
+        if(user != null){
+            Role newRole = actorService.addRole(actorRole.getActorIdActor(), actorRole.getRoleIdRole());
+            return new ResponseEntity<>(newRole, HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @DeleteMapping(value = "/api/actors/{idActor}/roles/{idRole}")
+    public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
+                                     @PathVariable(name = "idActor") int idActor, @PathVariable(name="idRole") int idRole)
+            throws UnsupportedEncodingException {
+
+        User user = userService.getUserByAuthorization(authorization);
+
+        if(user != null){
+            actorService.deleteRole(idActor, idRole);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 

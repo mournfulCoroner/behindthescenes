@@ -19,12 +19,14 @@ html, body, #root{
 }
 
 .content-container{
+    grid-template-rows: var(--height-header);
     grid-auto-rows: minmax(var(--height-header), auto);
 }
 
 @media(max-width: 806px){
     .content-container{
         gap: 1rem !important;
+        grid-template-rows: auto;
     }
 }
 

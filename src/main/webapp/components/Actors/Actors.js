@@ -34,8 +34,9 @@ const Actors = (props) => {
                     <Row style={{ height: "100%" }}>
                         <Col xs={4} className="pe-0">
                             <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-                                <div className="list-group list-group-flush border-bottom scrollarea">
-                                    {props.authorization ? <div onClick={() => setAddActorModal(true)} className="add-actor-button shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div> : null}
+                                <div className="border-end list-group list-group-flush border-bottom scrollarea">
+                                    {props.authorization ? <div onClick={() => setAddActorModal(true)} 
+                                        className="add-actor-button text-secondary shadow-sm list-group-item list-group-item-action py-3 lh-tight">Добавить актёра</div> : null}
                                     {actors}
                                 </div>
                             </div></Col>

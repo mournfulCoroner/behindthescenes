@@ -35,10 +35,8 @@ const ScriptInfo = (props) => {
             <hr className="m-0" /></div>)
 
     return (
-        <>
+        <>{!emptyChose ?
             <div className="h-100 w-100 bg-white">
-
-                {!emptyChose ?
                     <Tabs
                         id="script-tab"
                         activeKey={activeTab}
@@ -62,8 +60,8 @@ const ScriptInfo = (props) => {
                                 {replics}
                             </div> : null}
                         </Tab>
-                    </Tabs> : null}
-            </div>
+                    </Tabs> 
+            </div>: null}
         </>
     );
 }

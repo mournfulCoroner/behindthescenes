@@ -13,7 +13,7 @@ const Scripts = (props) => {
     }, []);
 
     let scripts = props.scripts.map((script) => <NavLink to={`/scripts/${script.idScript}`}
-        className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={script.idScript}>{script.title}</NavLink>)
+        className="border-end shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={script.idScript}>{script.title}</NavLink>)
     return (
         <>
             <div className="album d-block overflow-hidden border bg-light rounded mx-auto h-100">
@@ -22,16 +22,6 @@ const Scripts = (props) => {
                         <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                             <div className="overflow-auto list-group list-group-flush border-bottom scrollarea">
                                 {scripts}
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
-                                <div className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" >f</div>
                             </div>
                         </div></Col>
                     <Col xs={8} className="ps-0">
