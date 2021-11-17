@@ -10,7 +10,8 @@ import { getScripts, scriptGetters } from "../../../bll/reducers/reducerScript";
 const ActorInfo = (props) => {
 
     useEffect(() => {
-        checkParams()
+        checkParams();
+        props.getScripts();
     }, [props.match.params]);
 
     const [deleteActorRole, setdeleteActorRole] = useState(false);
@@ -18,13 +19,15 @@ const ActorInfo = (props) => {
     const [addRoleModal, setAddRoleModal] = useState(false)
     const [deleteRoleModal, setDeleteRoleModal] = useState(false);
 
+    const [selectRoles, setSelectRoles] = useState(null)
+
 
     const checkParams = () => {
         setEmptyChose(true)
         // props.removeRoles();
 
         if (props.match.params.actorId) {
-             setEmptyChose(false)
+            setEmptyChose(false)
             props.getActor(props.match.params.actorId)
             console.log(props.actor)
             props.getRoles(props.match.params.actorId)
@@ -32,30 +35,43 @@ const ActorInfo = (props) => {
     }
 
     let scriptsOptions = props.scripts.map((script) => script.rolesByIdScript.length > 0 ?
-    <option key={script.idScript} value={script.title}>{script.title}</option> :
-    <option key={script.idScript} disabled value={script.title}>{script.title}</option>), rolesOptions = null;
+        <option key={script.idScript} value={script.idScript}>{script.title}</option> :
+        <option key={script.idScript} disabled value={script.idScript}>{script.title}</option>)
+
+
     const formAdding = () => {
-        props.getScripts();
-    //     scriptsOptions = props.scripts.map((script) => props.scripts.rolesByIdScript.length > 0 ?
-    // <option key={script.scriptId} value={script.title}>{script.title}</option> :
-    // <option key={script.scriptId} disabled value={script.title}>{script.title}</option>)
+        let firstScript = props.scripts.find((script) => script.rolesByIdScript.length > 0);
+        setSelectRoles(firstScript.rolesByIdScript.map((role => {
+            let check = firstScript.rolesByIdScript.find((actorRole) => actorRole.idRole == role.idRole);
+            let result = check ? <option key={role.idRole} disabled value={role.roleName}>{role.roleName}</option> :
+                <option key={role.idRole} value={role.idRole}>{role.roleName}</option>
+            return result;
+        })))
         setAddRoleModal(true);
-        // rolesOptions = props.scripts.rolesByIdScript.map((role) => {
-        //     let check = props.roles.find((actorRole) => actorRole.roleId == role.roleId ? true : false);
-        //     if(check){
-        //         return <option key={role.roleId} disabled value={role.roleName}>{role.roleName}</option>
-        //     }
-        //     else{
-        //         return <option key={role.roleId} value={role.roleName}>{role.roleName}</option>
-        //     }
-        // })
+    }
+
+    const setActorsOptions = (e) => {
+        let currentScriptId = e.currentTarget.options[e.currentTarget.selectedIndex].value;
+        let currentScript = props.scripts.find((script) => script.idScript ==  currentScriptId)
+        setSelectRoles(currentScript.rolesByIdScript.map((role => {
+            let check = props.roles.find((actorRole) => actorRole.idRole == role.idRole);
+            let result = check ? <option key={role.idRole} disabled value={role.roleName}>{role.roleName}</option> :
+                <option key={role.idRole} value={role.idRole}>{role.roleName}</option>
+            return result;
+        })))
     }
 
 
-    const onSubmit = () => {
-        alert("yup")
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const loginForm = e.currentTarget;
+        if(props.match.params.actorId && loginForm.elements.roleId.value){
+            props.createRole(props.authorization, props.match.params.actorId, loginForm.elements.roleId.value )
+        }
+
+        setAddRoleModal(false);
     }
-    
+
 
     const deleteActor = () => {
         if (props.match.params.actorId) {
@@ -68,16 +84,16 @@ const ActorInfo = (props) => {
     let roles = props.roles.map((role) => <div key={role.idRole}>{role.roleName}</div>)
     return (
         <>{!emptyChose ?
-        <div className="h-100 w-100 bg-white">
-            {props.actor ? props.actor.name : null}
-            {props.roles.length !== 0 ?
-                <div>
-                    {roles}
-                </div> : null}
-            {props.authorization ? <Button onClick={() => { setdeleteActorRole(true) }}
-             variant="outline-danger">Удалить актёра</Button> :null}
-             {props.authorization ? <Button onClick={formAdding} variant="outline-secondary">Добавить роль</Button> : null}
-        </div> : null}
+            <div className="h-100 w-100 bg-white">
+                {props.actor ? props.actor.name : null}
+                {props.roles.length !== 0 ?
+                    <div>
+                        {roles}
+                    </div> : null}
+                {props.authorization ? <Button onClick={() => { setdeleteActorRole(true) }}
+                    variant="outline-danger">Удалить актёра</Button> : null}
+                {props.authorization ? <Button onClick={formAdding} variant="outline-secondary">Добавить роль</Button> : null}
+            </div> : null}
 
             <Modal show={deleteActorRole} onHide={() => setdeleteActorRole(false)}>
                 <Modal.Header closeButton>
@@ -98,24 +114,24 @@ const ActorInfo = (props) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Добавление роли</Modal.Title>
                 </Modal.Header>
-                <Modal.Body> 
+                <Modal.Body>
                     <form
                         onSubmit={onSubmit}
                         action="#"
                     >
-                        <Form.Select>{scriptsOptions}</Form.Select>
+                        <Form.Select name="scriptId" onLoad={() => { alert("meow") }} onChange={setActorsOptions}>{scriptsOptions}</Form.Select>
 
-                        <Form.Select>{rolesOptions}</Form.Select>
+                        <Form.Select name="roleId">{selectRoles}</Form.Select>
 
                         <div className="login__form-element">
                             <Button className="m-3 px-3" variant="dark" type="submit">Создать</Button>
 
-                            <Button variant="secondary" onClick={() => setAddActorModal(false)}>
+                            <Button variant="secondary" onClick={() => setAddRoleModal(false)}>
                                 Отмена
                             </Button>
                         </div>
                     </form>
-                    </Modal.Body>
+                </Modal.Body>
             </Modal>
         </>
     );

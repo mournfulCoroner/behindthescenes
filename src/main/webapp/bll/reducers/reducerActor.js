@@ -120,7 +120,7 @@ export const getActor = (actorId) => async (dispatch) => {
     dispatch(setActor(await apiActor.getActor(actorId)))
 }
 export const createRole = (authorization, actorId, roleId) => async (dispatch) => {
-    role = await apiActor.addRole(authorization, actorId, roleId);
+    let role = await apiActor.addRole(authorization, actorId, roleId);
     dispatch(addRole(role))
 }
 export const deleteRole = (authorization, actorId, roleId) => async (dispatch) => {

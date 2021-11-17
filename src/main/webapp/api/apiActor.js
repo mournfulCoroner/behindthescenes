@@ -38,7 +38,7 @@ export const apiActor = {
         return axios.get(`/api/actors/${id}`).then(responce => responce.data);
     },
     addRole(authorization, actorId, roleId) {
-        return axios.post("/api/actors/roles", JSON.stringify({ actorId, roleId }), {
+        return axios.post("/api/actors/roles", JSON.stringify({ actorIdActor: actorId, roleIdRole: roleId }), {
             headers:
             {
                 "Content-Type": "application/json",

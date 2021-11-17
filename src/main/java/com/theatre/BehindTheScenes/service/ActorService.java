@@ -60,7 +60,8 @@ public class ActorService {
 
     @Transactional
     public Role addRole(int actorId, int roleId){
-        actorRoleRepository.save(new ActorRole(actorId, roleId));
+        ActorRole actorRole = new ActorRole(actorId, roleId);
+        actorRoleRepository.save(actorRole);
         return roleRepository.findById(roleId).orElse(null);
     }
 
