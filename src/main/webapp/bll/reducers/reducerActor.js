@@ -92,7 +92,7 @@ const removeActor = (id) => ({type: REMOVE_ACTOR, id})
 const cleanRoles = () => ({type: CLEAN_ROLES })
 const setActor = (actor) => ({type: SET_ACTOR, actor}) 
 const addRole = (role) => ({type: ADD_ROLE, role})
-const removeRole = (role) => ({type: REMOVE_ROLE, roleId})
+const removeRole = (roleId) => ({type: REMOVE_ROLE, roleId})
 
 
 export const getActors = () => async (dispatch) => {
