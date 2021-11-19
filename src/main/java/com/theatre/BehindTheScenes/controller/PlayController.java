@@ -76,33 +76,18 @@ public class PlayController {
 
     @GetMapping(value = "/api/plays/before")
     public ResponseEntity<List<Play>> findPlaysBeforeThisMonth(
-            @RequestHeader("Authorization") String authorization,
             @RequestBody Date date
     ) throws IOException {
-        User user = userService.getUserByAuthorization(authorization);
 
-        if(user != null){
             List<Play> plays = playService.findPlaysBeforeThisMonth(date);
             return new ResponseEntity<>(plays, HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
     }
 
     @GetMapping(value = "/api/plays/month")
     public ResponseEntity<List<Play>> findPlaysAfterThisMonth(
-            @RequestHeader("Authorization") String authorization,
             @RequestBody Date date
     ) throws IOException {
-        User user = userService.getUserByAuthorization(authorization);
-
-        if(user != null){
             List<Play> plays = playService.findPlaysAfterThisMonth(date);
             return new ResponseEntity<>(plays, HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
     }
 }

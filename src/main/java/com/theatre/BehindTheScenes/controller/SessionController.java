@@ -58,34 +58,18 @@ public class SessionController {
 
     @GetMapping(value = "/api/sessions/month")
     public ResponseEntity<List<Session>> findSessionsThisMonth(
-            @RequestHeader("Authorization") String authorization,
             @RequestBody Date date
     ) throws IOException {
-        User user = userService.getUserByAuthorization(authorization);
-
-        if(user != null){
             List<Session> sessions = sessionService.findSessionsOfThisMonth(date);
             return new ResponseEntity<>(sessions, HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
     }
 
     @GetMapping(value = "/api/sessions/date")
-    public ResponseEntity<List<Session>> findSessionsBeforeThisMonth(
-            @RequestHeader("Authorization") String authorization,
+    public ResponseEntity<List<Session>> findSessionsThisDate(
             @RequestBody Date date
-    ) throws IOException {
-        User user = userService.getUserByAuthorization(authorization);
-
-        if(user != null){
+    ){
             List<Session> sessions = sessionService.findSessionsOfThisDate(date);
             return new ResponseEntity<>(sessions, HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
     }
 
 }
