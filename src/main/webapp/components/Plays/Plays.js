@@ -44,7 +44,7 @@ const Plays = (props) => {
   }
 
   const loadAddingModal = () => {
-    props.getScripts();
+    // props.getScripts();
     setAddPlayModal(true);
   }
 

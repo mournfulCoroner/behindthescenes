@@ -1,5 +1,6 @@
 package com.theatre.BehindTheScenes.controller;
 
+import com.theatre.BehindTheScenes.dto.RoleDTO;
 import com.theatre.BehindTheScenes.model.*;
 import com.theatre.BehindTheScenes.service.ActorService;
 import com.theatre.BehindTheScenes.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -103,12 +105,17 @@ public class ActorController {
     }
 
     @GetMapping(value = "/api/actors/{id}/roles")
-    public ResponseEntity<List<Role>> readActorRoles(@PathVariable(name = "id") int id) throws UnsupportedEncodingException {
+    public ResponseEntity<List<RoleDTO>> readActorRoles(@PathVariable(name = "id") int id) throws UnsupportedEncodingException {
 
         final List<Role> roles = actorService.getRoles(id);
+        List <RoleDTO> roleDTOS = new ArrayList<>();
+        for(Role role: roles){
+            roleDTOS.add(new RoleDTO(role.getIdRole(), role.getRoleName(),
+                    role.getIsMain(), role.getScriptByScriptIdScript().getIdScript()));
+        }
 
-        return roles != null &&  !roles.isEmpty()
-                ? new ResponseEntity<>(roles, HttpStatus.OK)
+        return roleDTOS != null &&  !roleDTOS.isEmpty()
+                ? new ResponseEntity<>(roleDTOS, HttpStatus.OK)
                 : new ResponseEntity<>(null, HttpStatus.OK);
     }
 

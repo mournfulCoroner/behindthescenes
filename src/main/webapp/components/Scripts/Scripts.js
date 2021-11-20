@@ -9,7 +9,7 @@ import ScriptInfo from "./ScriptInfo/ScriptInfo"
 const Scripts = (props) => {
 
     useEffect(() => {
-        props.getScripts();
+        // props.getScripts();
     }, []);
 
     let scripts = props.scripts.map((script) => <NavLink to={`/scripts/${script.idScript}`}

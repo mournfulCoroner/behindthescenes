@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
 import { actorGetters, getRoles, removeRoles, deleteActor, getActor, createRole, deleteRole } from "../../../bll/reducers/reducerActor";
 import { Button, Form, Modal, CloseButton, ListGroup } from "react-bootstrap"
@@ -12,7 +12,7 @@ const ActorInfo = (props) => {
 
     useEffect(() => {
         checkParams();
-        props.getScripts();
+        // props.getScripts();
     }, [props.match.params]);
 
     const [deleteActorRole, setdeleteActorRole] = useState(false);
@@ -95,8 +95,10 @@ const ActorInfo = (props) => {
         setDeleteRoleModal(false);
     }
 
-    let roles = props.roles.map((role) => <ListGroup.Item key={role.idRole} role={role.idRole} className="d-flex align-items-center justify-content-between"> <p className="fs-5 fw-light m-1 pb-1">
-        {role.roleName}</p><CloseButton onClick={initialDeleteRole} className="p-0 mb-0 ms-2 fs-6" /></ListGroup.Item>)
+    let roles = props.roles.map((role) => <ListGroup.Item key={role.idRole} role={role.idRole} className="d-flex align-items-center justify-content-between">
+        <Link className="text-black text-decoration-none" to={`/scripts/${role.idScript}`}><p className="fs-5 fw-light m-1 pb-1">
+        {role.roleName}</p></Link>
+        <CloseButton onClick={initialDeleteRole} className="p-0 mb-0 ms-2 fs-6" /></ListGroup.Item>)
     return (
         <>{!emptyChose ?
             <div className="h-100 w-100 bg-white">

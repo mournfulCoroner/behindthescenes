@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./content.css";
 import {Route, Switch} from "react-router-dom";
 import Home from "../Home/Home";
 import Actors from "../Actors/Actors";
 import Scripts from "../Scripts/Scripts";
 import Plays from "../Plays/Plays";
+import { getScripts } from "../../bll/reducers/reducerScript";
+import { connect } from "react-redux";
 
 const Content = (props) => {
+
+    useEffect(() => {
+        props.getScripts();
+    }, []);
+
     return (
         <section className="content">
             <Switch>
@@ -20,4 +27,6 @@ const Content = (props) => {
     );
 }
 
-export default Content;
+export default connect(null, {
+    getScripts
+})(Content);
