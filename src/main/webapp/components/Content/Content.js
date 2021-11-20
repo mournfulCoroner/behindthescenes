@@ -4,6 +4,7 @@ import {Route, Switch} from "react-router-dom";
 import Home from "../Home/Home";
 import Actors from "../Actors/Actors";
 import Scripts from "../Scripts/Scripts";
+import Plays from "../Plays/Plays";
 
 const Content = (props) => {
     return (
@@ -12,6 +13,7 @@ const Content = (props) => {
                 <Route path={["/home"]}><Home/></Route>
                 <Route path={["/actors/:actorId?"]}><Actors /></Route>
                 <Route path={["/scripts/:scriptId?"]}><Scripts /></Route>
+                <Route path={["/plays/:playsTime?"]}><Plays /></Route>
                 <Route path="*"><div>No match</div></Route>
             </Switch>
         </section>

@@ -1,5 +1,6 @@
 package com.theatre.BehindTheScenes.controller;
 
+import com.theatre.BehindTheScenes.dto.DateDTO;
 import com.theatre.BehindTheScenes.model.ActorRole;
 import com.theatre.BehindTheScenes.model.Play;
 import com.theatre.BehindTheScenes.model.Role;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -58,36 +61,27 @@ public class PlayController {
         }
     }
 
-    @GetMapping(value = "/api/plays/month")
+    @PostMapping(value = "/api/plays/month")
     public ResponseEntity<List<Play>> findPlaysThisMonth(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody Date date
+            @RequestBody DateDTO date
     ) throws IOException {
-        User user = userService.getUserByAuthorization(authorization);
-
-        if(user != null){
-            List<Play> plays = playService.findPlaysOfThisMonth(date);
-            return new ResponseEntity<>(plays, HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+            List<Play> plays = playService.findPlaysOfThisMonth(new Date(date.getDate()));
+            return new ResponseEntity<>(plays, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/api/plays/before")
+    @PostMapping(value = "/api/plays/before")
     public ResponseEntity<List<Play>> findPlaysBeforeThisMonth(
-            @RequestBody Date date
-    ) throws IOException {
-
-            List<Play> plays = playService.findPlaysBeforeThisMonth(date);
-            return new ResponseEntity<>(plays, HttpStatus.CREATED);
+            @RequestBody DateDTO date
+    ) throws IOException, ParseException {
+            List<Play> plays = playService.findPlaysBeforeThisMonth(new Date(date.getDate()));
+            return new ResponseEntity<>(plays, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/api/plays/month")
+    @PostMapping(value = "/api/plays/after")
     public ResponseEntity<List<Play>> findPlaysAfterThisMonth(
-            @RequestBody Date date
+            @RequestBody DateDTO date
     ) throws IOException {
-            List<Play> plays = playService.findPlaysAfterThisMonth(date);
-            return new ResponseEntity<>(plays, HttpStatus.CREATED);
+            List<Play> plays = playService.findPlaysAfterThisMonth(new Date(date.getDate()));
+            return new ResponseEntity<>(plays, HttpStatus.OK);
     }
 }

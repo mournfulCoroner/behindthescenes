@@ -16,13 +16,28 @@ export const apiPlay = {
                 { "Authorization": authorization }
         }).then(responce => responce.data)
     },
-    findPlaysThisMonth(date) {
-        return axios.get("/api/plays/month", date).then(responce => responce.data)
+    findPlaysThisMonth() {
+        return axios.post("/api/plays/month", JSON.stringify({ "date": Date.now() }), {
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(responce => responce.data)
     },
-    findPlaysBefortThisMonth(date) {
-        return axios.get("/api/plays/before", date).then(responce => responce.data)
+    findPlaysBeforeThisMonth() {
+        return axios.post("/api/plays/before", JSON.stringify({ "date": Date.now() }), {
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(responce => responce.data)
     },
-    findPlaysAfterThisMonth(date) {
-        return axios.get("/api/plays/after", date).then(responce => responce.data)
+    findPlaysAfterThisMonth() {
+        return axios.post("/api/plays/after", JSON.stringify({ "date": Date.now() }), {
+            headers:
+            {
+                "Content-Type": "application/json"
+            }
+        }).then(responce => responce.data)
     }
 }

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { actorGetters, getRoles, removeRoles, deleteActor, getActor, createRole, deleteRole } from "../../../bll/reducers/reducerActor";
-import { Button, Form, Modal, CloseButton } from "react-bootstrap"
+import { Button, Form, Modal, CloseButton, ListGroup } from "react-bootstrap"
 import { userGetters } from "../../../bll/reducers/reducerUser";
 import { getScripts, scriptGetters } from "../../../bll/reducers/reducerScript";
 
@@ -95,8 +95,8 @@ const ActorInfo = (props) => {
         setDeleteRoleModal(false);
     }
 
-    let roles = props.roles.map((role) => <div key={role.idRole} role={role.idRole} className="d-flex align-items-center justify-content-between"> <p className="fs-5 fw-light m-1 pb-1">
-        {role.roleName}</p><CloseButton onClick={initialDeleteRole} className="p-0 mb-0 ms-2 fs-6" /></div>)
+    let roles = props.roles.map((role) => <ListGroup.Item key={role.idRole} role={role.idRole} className="d-flex align-items-center justify-content-between"> <p className="fs-5 fw-light m-1 pb-1">
+        {role.roleName}</p><CloseButton onClick={initialDeleteRole} className="p-0 mb-0 ms-2 fs-6" /></ListGroup.Item>)
     return (
         <>{!emptyChose ?
             <div className="h-100 w-100 bg-white">
@@ -106,7 +106,9 @@ const ActorInfo = (props) => {
                         <div>
                             <p className="fs-5 fw-light m-1">Роли:</p>
                             <div className="m-2 mb-4 text-start">
-                                {roles}
+                                <ListGroup variant="flush">
+                                    {roles}
+                                </ListGroup>
                             </div> </div> : null}
                     {props.authorization ? <div><Button onClick={formAdding} variant="outline-secondary">Добавить роль</Button> <Button onClick={() => { setdeleteActorRole(true) }}
                         variant="outline-danger">Удалить актёра</Button> </div>: null}

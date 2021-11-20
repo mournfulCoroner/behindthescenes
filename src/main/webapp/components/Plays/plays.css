@@ -1,0 +1,8 @@
+.nav-link.active{
+    background-color: var(--bs-gray-900) !important;
+    color: white !important;
+}
+
+.plays-container{
+    grid-template-rows: 14% 80%;
+}

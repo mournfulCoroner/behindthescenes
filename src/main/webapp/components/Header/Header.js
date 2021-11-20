@@ -44,7 +44,7 @@ const Header = (props) => {
                     <Link to="/scripts" className="nav-link">Сценарии</Link>
                     <Link to="/actors" className="nav-link">Актёры</Link>
                     <NavDropdown title="Расписание">
-                        <Link to="/plays" className="dropdown-item">Пьесы</Link>
+                        <Link to="/plays/now" className="dropdown-item">Пьесы</Link>
                         <Link to="/sessisons" className="dropdown-item">Сессии</Link>
                     </NavDropdown>
 

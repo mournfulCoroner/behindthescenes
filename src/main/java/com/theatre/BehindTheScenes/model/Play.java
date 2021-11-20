@@ -1,5 +1,7 @@
 package com.theatre.BehindTheScenes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -75,6 +77,7 @@ public class Play {
         this.scriptByScriptIdScript = scriptByScriptIdScript;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "playByPlayIdPlay")
     public Collection<Session> getSessionsByIdPlay() {
         return sessionsByIdPlay;

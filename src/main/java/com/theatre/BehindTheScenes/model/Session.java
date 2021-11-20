@@ -1,5 +1,7 @@
 package com.theatre.BehindTheScenes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -66,6 +68,7 @@ public class Session {
         return result;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sessionBySessionIdSession")
     public Collection<ActorSession> getActorSessionsByIdSession() {
         return actorSessionsByIdSession;
@@ -85,6 +88,7 @@ public class Session {
         this.playByPlayIdPlay = playByPlayIdPlay;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sessionBySessionIdSession")
     public Collection<SessionSeat> getSessionSeatsByIdSession() {
         return sessionSeatsByIdSession;
