@@ -62,8 +62,8 @@ export const getPlaysAfterThisMonth = () => async (dispatch) => {
     dispatch(cleanPlays());
     dispatch(setPlays(await apiPlay.findPlaysAfterThisMonth()))
 }
-export const createPlay = (authorization, name) => async (dispatch) => {
-    dispatch(addPlay(await apiPlay.createPlay(authorization, name)));
+export const createPlay = (authorization, premierDate, endDate, idScript) => async (dispatch) => {
+    dispatch(addPlay(await apiPlay.createPlay(authorization, {premierDate, endDate, idScript})));
 } 
 export const deletePlay = (authorization, id) => async (dispatch) => {
     await apiPlay.deletePlay(authorization, id)

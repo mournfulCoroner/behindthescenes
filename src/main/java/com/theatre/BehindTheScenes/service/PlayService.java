@@ -1,6 +1,8 @@
 package com.theatre.BehindTheScenes.service;
 
 import com.theatre.BehindTheScenes.dao.PlayRepository;
+import com.theatre.BehindTheScenes.dao.ScriptRepository;
+import com.theatre.BehindTheScenes.dto.PlayDTO;
 import com.theatre.BehindTheScenes.model.Play;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +15,22 @@ import java.util.*;
 @Service
 public class PlayService {
     private final PlayRepository playRepository;
+    private final ScriptRepository scriptRepository;
 
     @Autowired
-    public PlayService(PlayRepository playRepository)
+    public PlayService(PlayRepository playRepository, ScriptRepository scriptRepository)
     {
         this.playRepository = playRepository;
+        this.scriptRepository = scriptRepository;
     }
 
     @Transactional
-    public Play create(Play play) {
-        return playRepository.save(play);
+    public Play create(PlayDTO playDTO) {
+        Play newPlay = new Play();
+        newPlay.setPremierDate(playDTO.getPremierDate());
+        newPlay.setEndDate(playDTO.getEndDate());
+        newPlay.setScriptByScriptIdScript(scriptRepository.getOne(playDTO.getIdScript()));
+        return playRepository.save(newPlay);
     }
 
 //    public boolean delete(int id) {

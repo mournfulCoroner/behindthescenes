@@ -5,8 +5,11 @@ import "./plays.css";
 import { Button, Nav, Table, Form, Modal } from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import { userGetters } from "../../bll/reducers/reducerUser";
-import { getPlaysAfterThisMonth, getPlaysBeforeThisMonth, getPlaysThisMonth, playGetters } from "../../bll/reducers/reducerPlay";
+import { createPlay, deletePlay, getPlaysAfterThisMonth, getPlaysBeforeThisMonth, getPlaysThisMonth, playGetters } from "../../bll/reducers/reducerPlay";
 import { getScripts, scriptGetters } from "../../bll/reducers/reducerScript";
+
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
 
 const Plays = (props) => {
   useEffect(() => {
@@ -20,6 +23,9 @@ const Plays = (props) => {
   const [activeSort, setActiveSort] = useState(props.match.params.playsTime);
 
   const [addPlayModal, setAddPlayModal] = useState(false);
+  const [premierDate, setPremierDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const [deletePlaysModal, setDeletePlaysModal] = useState(false);
 
   const setTimePlays = () => {
@@ -41,7 +47,19 @@ const Plays = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    if (endDate && premierDate && endDate > premierDate){
+    if(premierDate.getMonth() > new Date().getMonth()){
+      props.history.push("/plays/future");
+    }
+    else if (premierDate.getMonth() > new Date().getMonth()){
+      props.history.push("/plays/now");
+    }
+    else{
+      props.history.push("/plays/past");
+    }
+      props.createPlay(props.authorization, premierDate, endDate, e.currentTarget.elements.scriptId.value)
+      setAddPlayModal(false);
+  }
   }
 
   const loadAddingModal = () => {
@@ -64,7 +82,7 @@ const Plays = (props) => {
   return (
     <>
       <div className="plays-container d-lg-grid d-md-flex d-sm-flex album overflow-hidden border bg-light rounded mx-auto h-100">
-        <Nav variant="pills" className="bg-white border m-4 nav nav-pills p-3 rounded d-flex justify-content-between">
+        <Nav variant="pills" className="align-items-center bg-white border m-4 nav nav-pills p-3 rounded d-flex justify-content-between">
           <div className="d-flex flex-column flex-lg-row mx-auto mx-lg-0">
             <Nav.Item>
               <NavLink to="/plays/past" className={activeSort == "past" ? "me-3 nav-link active" : "me-3 nav-link"}>Прошедшие</NavLink>
@@ -108,14 +126,31 @@ const Plays = (props) => {
           <form
             onSubmit={onSubmit}
             action="#"
-            className="w-75"
+            className="align-items-center d-flex flex-column p-3 w-100 w-75"
           >
-            <Form.Select className="m-4 p-2" name="scriptId" onLoad={() => { alert("meow") }}>{scriptsOptions}</Form.Select>
+            <Form.Select className="m-4 p-3" name="scriptId" onLoad={() => { alert("meow") }}>{scriptsOptions}</Form.Select>
 
-            <div className="login__form-element mb-2 ms-4">
+            <div className="mb-4 w-100 d-flex justify-content-center">
+            <DesktopDatePicker
+              label="Выберите дату премьеры"
+              inputFormat="dd/MM/yyyy"
+              value={premierDate}
+                onChange={(newValue) => setPremierDate(newValue)}
+                renderInput={(params) => <TextField className="w-100" {...params} />}
+            /></div>
+
+            <div className="w-100 d-flex justify-content-center">
+            <DesktopDatePicker
+              label="Выберите дату окончания показа"
+              inputFormat="dd/MM/yyyy"
+              value={endDate}
+                onChange={(newValue) => setEndDate(newValue)}
+                renderInput={(params) => <TextField className="w-100" {...params} />}
+            /></div>
+
+            <div className="align-self-baseline login__form-element mt-3">
               <Button className="m-3 px-3" variant="dark" type="submit">Создать</Button>
-
-              <Button variant="secondary" onClick={() => setAddPlayModal(false)}>
+              <Button className="px-3" variant="secondary" onClick={() => setAddPlayModal(false)}>
                 Отмена
               </Button>
             </div>
@@ -152,6 +187,8 @@ export default compose(connect(mapStateToProps, {
   getPlaysThisMonth,
   getPlaysBeforeThisMonth,
   getPlaysAfterThisMonth,
-  getScripts
+  getScripts,
+  createPlay,
+  deletePlay
 }),
   withRouter)(Plays);

@@ -1,11 +1,12 @@
 package com.theatre.BehindTheScenes.controller;
 
 import com.theatre.BehindTheScenes.dto.DateDTO;
-import com.theatre.BehindTheScenes.model.ActorRole;
+import com.theatre.BehindTheScenes.dto.PlayDTO;
 import com.theatre.BehindTheScenes.model.Play;
-import com.theatre.BehindTheScenes.model.Role;
+import com.theatre.BehindTheScenes.model.Script;
 import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.service.PlayService;
+import com.theatre.BehindTheScenes.service.ScriptService;
 import com.theatre.BehindTheScenes.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -23,20 +23,28 @@ public class PlayController {
     
     private final PlayService playService;
     private final UserService userService;
+    private final ScriptService scriptService;
 
-    public PlayController(PlayService playService, UserService userService) {
+    public PlayController(PlayService playService, UserService userService, ScriptService scriptService) {
         this.playService = playService;
         this.userService = userService;
+        this.scriptService = scriptService;
     }
 
     @PostMapping(value = "/api/plays")
     public ResponseEntity<Play> create(
             @RequestHeader("Authorization") String authorization,
-            @RequestBody Play play
+            @RequestBody PlayDTO play
     ) throws IOException {
         User user = userService.getUserByAuthorization(authorization);
         if(user != null){
+
             Play newPlay = playService.create(play);
+
+            Script script = scriptService.getScriptInfo(play.getIdScript());
+            for(Play pl: script.getPlaysByIdScript()){
+                System.out.println(pl.getPremierDate());
+            }
             return new ResponseEntity<>(newPlay, HttpStatus.CREATED);
         }
         else{

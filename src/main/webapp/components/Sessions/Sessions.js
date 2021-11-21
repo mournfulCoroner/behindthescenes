@@ -9,6 +9,11 @@ import { sessionGetters, getSessionsThisDate, getSessionsThisMonth } from "../..
 import { format } from 'date-fns'
 import ruLocale from 'date-fns/locale/ru'
 
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
+import "./session.css";
+
+
 const Sessions = (props) => {
     useEffect(() => {
         setTimeSessions()
@@ -20,6 +25,7 @@ const Sessions = (props) => {
 
     
     const [activeSort, setActiveSort] = useState(props.match.params.sessionsTime);
+    const [value, setValue] = useState(null);
 
     const [addSessionModal, setAddSessionModal] = useState(false);
     const [deleteSessionModal, setDeleteSessionModal] = useState(false);
@@ -29,12 +35,16 @@ const Sessions = (props) => {
         switch (props.match.params.sessionsTime) {
             case "today":
                 props.getSessionsThisDate(new Date());
+                setValue(null);
                 break;
             case "now":
                 props.getSessionsThisMonth();
+                setValue(null);
                 break;
             case "date":
-                
+                if(!value){
+                   props.history.push("/sessions/today") 
+                }
                 break;
             default:
                 break;
@@ -55,6 +65,12 @@ const Sessions = (props) => {
 
     }
 
+    const handleChange = (newValue) => {
+        props.getSessionsThisDate(newValue);
+        setValue(newValue);
+        props.history.push("/sessions/date");
+    }
+
     let sessions = props.sessions.map((session) => <tr key={session.idSession}><td>{session.idSession}</td>
         <td>{session.playByPlayIdPlay.scriptByScriptIdScript.title}</td>
         <td>{format(new Date(session.date), "Pp", {
@@ -67,20 +83,28 @@ const Sessions = (props) => {
 
     return (
         <>
+            
             <div className="plays-container d-lg-grid d-md-flex d-sm-flex album overflow-hidden border bg-light rounded mx-auto h-100">
-                <Nav variant="pills" className="bg-white border m-4 nav nav-pills p-3 rounded d-flex justify-content-between">
-                    <div className="d-flex flex-column flex-lg-row mx-auto mx-lg-0">
+                <Nav variant="pills" className="pills-container align-items-center bg-white border m-4 nav nav-pills p-3 rounded d-flex justify-content-between">
+                        <div className="d-flex align-items-center flex-column mt-1 flex-lg-row mx-auto mx-lg-0">
                         <Nav.Item>
                             <NavLink to="/sessions/today" className={activeSort == "today" ? "me-3 nav-link active" : "me-3 nav-link"}>Сегодня</NavLink>
                         </Nav.Item>
                         <Nav.Item>
                             <NavLink to="/sessions/now" className={activeSort == "now" ? "me-3 nav-link active" : "me-3 nav-link"}>В этом месяце</NavLink>
                         </Nav.Item>
+                            <DesktopDatePicker
+                                label="Выберите дату"
+                                inputFormat="dd/MM/yyyy"
+                                value={value}
+                                onChange={handleChange}
+                                renderInput={(params) => <TextField {...params} />}
+                            />
                         {/* <Nav.Item >
                             <NavLink to="/plays/future" className={activeSort == "date" ? "me-3 nav-link active" : "me-3 nav-link"}>Скоро</NavLink>
                         </Nav.Item> */}
                     </div>
-                    {props.authorization ? <div><Button variant="outline-secondary" onClick={loadAddingModal}>Создать сессию</Button> <Button
+                    {props.authorization ? <div className="mt-1"><Button variant="outline-secondary" onClick={loadAddingModal}>Создать сессию</Button> <Button
                         variant="outline-danger">Удалить</Button> </div> : null}
                 </Nav>
 
@@ -141,6 +165,7 @@ const Sessions = (props) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            
         </>
     );
 }

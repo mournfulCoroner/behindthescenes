@@ -1,6 +1,7 @@
 package com.theatre.BehindTheScenes.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -67,8 +68,9 @@ public class Play {
         return result;
     }
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne
-    @JoinColumn(name = "Script_idScript", referencedColumnName = "idScript", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "scriptIdScript", referencedColumnName = "idScript", nullable = false)
     public Script getScriptByScriptIdScript() {
         return scriptByScriptIdScript;
     }
