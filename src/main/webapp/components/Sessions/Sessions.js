@@ -6,6 +6,8 @@ import { NavLink, withRouter } from "react-router-dom";
 import { userGetters } from "../../bll/reducers/reducerUser";
 import {  scriptGetters } from "../../bll/reducers/reducerScript";
 import { sessionGetters, getSessionsThisDate, getSessionsThisMonth } from "../../bll/reducers/reducerSession";
+import { format } from 'date-fns'
+import ruLocale from 'date-fns/locale/ru'
 
 const Sessions = (props) => {
     useEffect(() => {
@@ -16,6 +18,7 @@ const Sessions = (props) => {
         setTimeSessions()
     }, [props.match.params]);
 
+    
     const [activeSort, setActiveSort] = useState(props.match.params.sessionsTime);
 
     const [addSessionModal, setAddSessionModal] = useState(false);
@@ -54,7 +57,9 @@ const Sessions = (props) => {
 
     let sessions = props.sessions.map((session) => <tr key={session.idSession}><td>{session.idSession}</td>
         <td>{session.playByPlayIdPlay.scriptByScriptIdScript.title}</td>
-        <td>{session.date}</td>
+        <td>{format(new Date(session.date), "Pp", {
+            locale: ruLocale
+})}</td>
         <td>{session.hallNumber}</td>
         <td><Form.Check type="checkbox" sessionid={session.idSession} /></td></tr>)
 
