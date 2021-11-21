@@ -11,7 +11,7 @@ export const apiPlay = {
         }).then(responce => responce.data)
     },
     deletePlay(authorization, ids) {
-        return axios.delete(`/api/plays/delete`, JSON.stringify(ids), {
+        return axios.post(`/api/plays/delete`, JSON.stringify(ids), {
             headers:
                 { "Authorization": authorization,
                 "Content-Type": "application/json" }

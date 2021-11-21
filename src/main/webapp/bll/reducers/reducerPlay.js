@@ -25,7 +25,7 @@ const reducerPlay = (state = initialState, action) => {
         case REMOVE_PLAY:
             return {
                 ...state,
-                plays: state.plays.filter((play) => play.idPlay != action.id)
+                plays: state.plays.filter((play) => !action.ids.find((id) => id == play.idPlay))
             }
         case CLEAN_PLAYS:{
             return {
@@ -46,7 +46,7 @@ export const playGetters = {
 
 const setPlays = (plays) => ({type: SET_PLAYS, plays});
 const addPlay = (play) => ({type: ADD_PLAY, play});
-const removePlay = (id) => ({type: REMOVE_PLAY, id});
+const removePlay = (ids) => ({type: REMOVE_PLAY, ids});
 const cleanPlays = () => ({type: CLEAN_PLAYS});
 
 
@@ -65,9 +65,9 @@ export const getPlaysAfterThisMonth = () => async (dispatch) => {
 export const createPlay = (authorization, premierDate, endDate, idScript) => async (dispatch) => {
     dispatch(addPlay(await apiPlay.createPlay(authorization, {premierDate, endDate, idScript})));
 } 
-export const deletePlay = (authorization, id) => async (dispatch) => {
-    await apiPlay.deletePlay(authorization, id)
-    dispatch(removePlay(id));
+export const deletePlay = (authorization, ids) => async (dispatch) => {
+    await apiPlay.deletePlay(authorization, ids)
+    dispatch(removePlay(ids));
 }
 
 export default reducerPlay;

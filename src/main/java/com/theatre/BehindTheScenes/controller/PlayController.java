@@ -3,7 +3,6 @@ package com.theatre.BehindTheScenes.controller;
 import com.theatre.BehindTheScenes.dto.DateDTO;
 import com.theatre.BehindTheScenes.dto.PlayDTO;
 import com.theatre.BehindTheScenes.model.Play;
-import com.theatre.BehindTheScenes.model.Script;
 import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.service.PlayService;
 import com.theatre.BehindTheScenes.service.ScriptService;
@@ -23,12 +22,10 @@ public class PlayController {
     
     private final PlayService playService;
     private final UserService userService;
-    private final ScriptService scriptService;
 
-    public PlayController(PlayService playService, UserService userService, ScriptService scriptService) {
+    public PlayController(PlayService playService, UserService userService) {
         this.playService = playService;
         this.userService = userService;
-        this.scriptService = scriptService;
     }
 
     @PostMapping(value = "/api/plays")
@@ -41,10 +38,6 @@ public class PlayController {
 
             Play newPlay = playService.create(play);
 
-            Script script = scriptService.getScriptInfo(play.getIdScript());
-            for(Play pl: script.getPlaysByIdScript()){
-                System.out.println(pl.getPremierDate());
-            }
             return new ResponseEntity<>(newPlay, HttpStatus.CREATED);
         }
         else{
@@ -52,7 +45,7 @@ public class PlayController {
         }
     }
 
-    @DeleteMapping(value = "/api/plays/delete")
+    @PostMapping(value = "/api/plays/delete")
     public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
                                      @RequestBody List<Integer> ids) throws UnsupportedEncodingException {
 

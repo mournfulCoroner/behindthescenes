@@ -51,11 +51,11 @@ const Plays = (props) => {
     if(premierDate.getMonth() > new Date().getMonth()){
       props.history.push("/plays/future");
     }
-    else if (premierDate.getMonth() > new Date().getMonth()){
-      props.history.push("/plays/now");
+    else if (endDate.getMonth() < new Date().getMonth()){
+      props.history.push("/plays/past");
     }
     else{
-      props.history.push("/plays/past");
+      props.history.push("/plays/now");
     }
       props.createPlay(props.authorization, premierDate, endDate, e.currentTarget.elements.scriptId.value)
       setAddPlayModal(false);
@@ -68,14 +68,22 @@ const Plays = (props) => {
   }
 
   const deleteCurrentPlays = () => {
-
+    let checkers = document.querySelectorAll(".play-check");
+    let ids = [];
+    for(let checker of checkers){
+      checker.checked ? ids.push(checker.attributes.playid.value) : null
+    }
+    if(ids.length){
+      props.deletePlay(props.authorization, ids);
+    }
+    setDeletePlaysModal(false);
   }
 
   let plays = props.plays.map((play) => <tr key={play.idPlay}><td>{play.idPlay}</td>
   <td>{play.scriptByScriptIdScript.title}</td>
   <td>{play.premierDate}</td>
   <td>{play.endDate}</td>
-  <td><Form.Check type="checkbox" playid={play.idPlay} /></td></tr>) 
+    <td><input type="checkbox" className="play-check form-check-input" playid={play.idPlay} /></td></tr>)
 
   let scriptsOptions = props.scripts.map((script) => <option key={script.idScript} value={script.idScript}>{script.title}</option>)
 
@@ -94,7 +102,8 @@ const Plays = (props) => {
               <NavLink to="/plays/future" className={activeSort == "future" ? "me-3 nav-link active" : "me-3 nav-link"}>Скоро</NavLink>
             </Nav.Item>
           </div>
-          {props.authorization ? <div><Button variant="outline-secondary" onClick={loadAddingModal}>Создать представление</Button> <Button
+          {props.authorization ? <div><Button variant="outline-secondary" onClick={loadAddingModal}>Создать представление</Button> <Button 
+            onClick={() => setDeletePlaysModal(true)}
             variant="outline-danger">Удалить</Button> </div> : null}
         </Nav>
 
