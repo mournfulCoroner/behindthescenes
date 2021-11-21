@@ -9,7 +9,8 @@ import java.util.List;
 
 
 public interface PlayRepository extends JpaRepository<Play, Integer> {
-    long deleteByIdPlay(int id);
+//    long deleteByIdPlay(int id);
+    long deleteByIdPlayIn(List<Integer> ids);
 
     List<Play> findAllByPremierDateBeforeOrderByPremierDate(Date beforeDate);
     List<Play> findAllByPremierDateAfterOrderByPremierDate(Date afterDate);

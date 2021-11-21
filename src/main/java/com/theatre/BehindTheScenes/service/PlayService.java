@@ -4,6 +4,7 @@ import com.theatre.BehindTheScenes.dao.PlayRepository;
 import com.theatre.BehindTheScenes.model.Play;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.text.SimpleDateFormat;
@@ -19,12 +20,19 @@ public class PlayService {
         this.playRepository = playRepository;
     }
 
+    @Transactional
     public Play create(Play play) {
         return playRepository.save(play);
     }
 
-    public boolean delete(int id) {
-        long count = playRepository.deleteByIdPlay(id);
+//    public boolean delete(int id) {
+//        long count = playRepository.deleteByIdPlay(id);
+//        return count > 0;
+//    }
+
+    @Transactional
+    public boolean deleteIn(List<Integer> ids) {
+        long count = playRepository.deleteByIdPlayIn(ids);
         return count > 0;
     }
 

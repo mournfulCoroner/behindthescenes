@@ -1,5 +1,6 @@
 package com.theatre.BehindTheScenes.controller;
 
+import com.theatre.BehindTheScenes.dto.DateDTO;
 import com.theatre.BehindTheScenes.model.Session;
 import com.theatre.BehindTheScenes.model.User;
 import com.theatre.BehindTheScenes.service.SessionService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -39,14 +41,14 @@ public class SessionController {
         }
     }
 
-    @DeleteMapping(value = "/api/sessions/{id}")
+    @DeleteMapping(value = "/api/sessions/delete")
     public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
-                                     @PathVariable(name = "id") int id) throws UnsupportedEncodingException {
+                                     @RequestBody List<Integer> ids) throws UnsupportedEncodingException {
 
         User user = userService.getUserByAuthorization(authorization);
 
         if(user != null){
-            final boolean deleted = sessionService.delete(id);
+            final boolean deleted = sessionService.deleteIn(ids);
             return deleted
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -56,19 +58,19 @@ public class SessionController {
         }
     }
 
-    @GetMapping(value = "/api/sessions/month")
+    @PostMapping(value = "/api/sessions/month")
     public ResponseEntity<List<Session>> findSessionsThisMonth(
-            @RequestBody Date date
+            @RequestBody DateDTO date
     ) throws IOException {
-            List<Session> sessions = sessionService.findSessionsOfThisMonth(date);
+            List<Session> sessions = sessionService.findSessionsOfThisMonth(new Date(date.getDate()));
             return new ResponseEntity<>(sessions, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/api/sessions/date")
+    @PostMapping(value = "/api/sessions/date")
     public ResponseEntity<List<Session>> findSessionsThisDate(
-            @RequestBody Date date
+            @RequestBody DateDTO date
     ){
-            List<Session> sessions = sessionService.findSessionsOfThisDate(date);
+            List<Session> sessions = sessionService.findSessionsOfThisDate(new Date(date.getDate()));
             return new ResponseEntity<>(sessions, HttpStatus.CREATED);
     }
 

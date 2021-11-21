@@ -7,6 +7,7 @@ import com.theatre.BehindTheScenes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -44,6 +45,15 @@ public class ScriptController {
         return scripts != null &&  !scripts.isEmpty()
                 ? new ResponseEntity<>(scripts, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping(value = "/api/scripts/{id}")
+    public ResponseEntity<?> changeScriptStatus(@PathVariable(name = "id") int id, @RequestBody boolean inUse){
+
+        byte status = (byte) (inUse ? 1 : 0);
+        Script script = scriptService.update(id, status);
+
+        return new ResponseEntity<>(script, HttpStatus.OK);
     }
 
 

@@ -10,10 +10,11 @@ export const apiPlay = {
             }
         }).then(responce => responce.data)
     },
-    deletePlay(authorization, id) {
-        return axios.delete(`/api/plays/${id}`, {
+    deletePlay(authorization, ids) {
+        return axios.delete(`/api/plays/delete`, JSON.stringify(ids), {
             headers:
-                { "Authorization": authorization }
+                { "Authorization": authorization,
+                "Content-Type": "application/json" }
         }).then(responce => responce.data)
     },
     findPlaysThisMonth() {

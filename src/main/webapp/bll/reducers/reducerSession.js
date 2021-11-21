@@ -43,10 +43,10 @@ const removeSession = (id) => ({type: REMOVE_SESSION, id})
 
 
 export const getSessionsThisMonth = () => async (dispatch) => {
-    dispatch(setSessions(await apiSession.getSessionsThisMonth(new Date())))
+    dispatch(setSessions(await apiSession.findSessionsThisMonth(new Date())))
 }
 export const getSessionsThisDate = (date) => async (dispatch) => {
-    dispatch(setSessions(await apiSession.getSessionsThisDate(date)))
+    dispatch(setSessions(await apiSession.findSessionsThisDate(date)))
 }
 export const createSession = (authorization, name) => async (dispatch) => {
     dispatch(addSession(await apiSession.createSession(authorization, name)));

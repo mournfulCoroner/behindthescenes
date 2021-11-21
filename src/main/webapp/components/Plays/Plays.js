@@ -20,6 +20,7 @@ const Plays = (props) => {
   const [activeSort, setActiveSort] = useState(props.match.params.playsTime);
 
   const [addPlayModal, setAddPlayModal] = useState(false);
+  const [deletePlaysModal, setDeletePlaysModal] = useState(false);
 
   const setTimePlays = () => {
     setActiveSort(props.match.params.playsTime);
@@ -46,6 +47,10 @@ const Plays = (props) => {
   const loadAddingModal = () => {
     // props.getScripts();
     setAddPlayModal(true);
+  }
+
+  const deleteCurrentPlays = () => {
+
   }
 
   let plays = props.plays.map((play) => <tr key={play.idPlay}><td>{play.idPlay}</td>
@@ -116,6 +121,21 @@ const Plays = (props) => {
             </div>
           </form>
         </Modal.Body>
+      </Modal>
+
+      <Modal show={deletePlaysModal} onHide={() => setDeletePlaysModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Предупреждение</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Вы уверены, что хотите удалить выбранные пьесы?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={deleteCurrentPlays}>
+            Да
+          </Button>
+          <Button variant="dark" onClick={() => setDeletePlaysModal(false)}>
+            Отмена
+          </Button>
+        </Modal.Footer>
       </Modal>
     </>
   );

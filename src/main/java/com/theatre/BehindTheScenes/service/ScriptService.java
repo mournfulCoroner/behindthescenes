@@ -4,6 +4,7 @@ import com.theatre.BehindTheScenes.dao.ScriptRepository;
 import com.theatre.BehindTheScenes.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,19 +21,22 @@ public class ScriptService {
         this.scriptRepository = scriptRepository;
     }
 
+    @Transactional
     public Script create(Script script) {
         return scriptRepository.save(script);
     }
 
-    public void update(int id, String title, String author) {
+    @Transactional
+    public Script update(int id, byte inUse) {
         Script script = scriptRepository.findById(id).orElse(null);
         if(script != null){
-            script.setTitle(title);
-            script.setAuthor(author);
-            scriptRepository.save(script);
+            script.setInUse(inUse);
+            return scriptRepository.save(script);
         }
+        return null;
     }
 
+    @Transactional
     public boolean delete(int id) {
         long count = scriptRepository.deleteByIdScript(id);
         return count > 0;

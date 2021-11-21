@@ -44,14 +44,14 @@ public class PlayController {
         }
     }
 
-    @DeleteMapping(value = "/api/plays/{id}")
+    @DeleteMapping(value = "/api/plays/delete")
     public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
-                                     @PathVariable(name = "id") int id) throws UnsupportedEncodingException {
+                                     @RequestBody List<Integer> ids) throws UnsupportedEncodingException {
 
         User user = userService.getUserByAuthorization(authorization);
 
         if(user != null){
-            final boolean deleted = playService.delete(id);
+            final boolean deleted = playService.deleteIn(ids);
             return deleted
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

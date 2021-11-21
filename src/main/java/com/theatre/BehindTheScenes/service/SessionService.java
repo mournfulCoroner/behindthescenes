@@ -4,7 +4,9 @@ import com.theatre.BehindTheScenes.dao.SessionRepository;
 import com.theatre.BehindTheScenes.model.Play;
 import com.theatre.BehindTheScenes.model.Session;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,12 +20,19 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
+    @Transactional
     public Session create(Session session) {
         return sessionRepository.save(session);
     }
 
-    public boolean delete(int id) {
-        long count = sessionRepository.deleteByIdSession(id);
+//    public boolean delete(int id) {
+//        long count = sessionRepository.deleteByIdSession(id);
+//        return count > 0;
+//    }
+
+    @Transactional
+    public boolean deleteIn(List<Integer> ids) {
+        long count = sessionRepository.deleteByIdSessionIn(ids);
         return count > 0;
     }
 
@@ -44,7 +53,7 @@ public class SessionService {
     }
 
     public List<Session> findSessionsOfThisDate(Date date){
-        return sessionRepository.findAllByDate(date);
+        return sessionRepository.findSessionsByDate(date);
     }
 
 }
