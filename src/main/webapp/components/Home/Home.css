@@ -3,3 +3,8 @@
     font-weight: 400;
     text-align: center;
 }
+
+.img-handler{
+    height: 225px;
+    overflow: hidden;
+}
