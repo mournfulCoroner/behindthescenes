@@ -11,9 +11,10 @@ export const apiSession = {
         }).then(responce => responce.data)
     },
     deleteSession(authorization, ids) {
-        return axios.delete(`/api/sessions/delete`, JSON.stringify(ids), {
+        return axios.post(`/api/sessions/delete`, JSON.stringify(ids), {
             headers:
-                { "Authorization": authorization }
+                { "Authorization": authorization,
+                "Content-Type": "application/json" }
         }).then(responce => responce.data)
     },
     findSessionsThisMonth() {

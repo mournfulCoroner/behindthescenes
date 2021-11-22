@@ -40,5 +40,8 @@ export const apiPlay = {
                 "Content-Type": "application/json"
             }
         }).then(responce => responce.data)
+    },
+    findPlay(id) {
+        return axios.get(`/api/plays/${id}`).then(responce => responce.data)
     }
 }

@@ -5,7 +5,7 @@ import { Button, Nav, Table, Form, Modal } from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import { userGetters } from "../../bll/reducers/reducerUser";
 import {  scriptGetters } from "../../bll/reducers/reducerScript";
-import { sessionGetters, getSessionsThisDate, getSessionsThisMonth } from "../../bll/reducers/reducerSession";
+import { sessionGetters, getSessionsThisDate, getSessionsThisMonth, createSession, deleteSession } from "../../bll/reducers/reducerSession";
 import { format } from 'date-fns'
 import ruLocale from 'date-fns/locale/ru'
 
@@ -61,9 +61,18 @@ const Sessions = (props) => {
         setAddSessionModal(true);
     }
 
-    const deleteCurrentPlays = () => {
-
+    const deleteCurrentSessions = () => {
+        let checkers = document.querySelectorAll(".session-check");
+    let ids = [];
+    for (let checker of checkers) {
+      checker.checked ? ids.push(checker.attributes.sessionid.value) : null
     }
+    if (ids.length) {
+      props.deleteSession(props.authorization, ids);
+    }
+    setDeleteSessionModal(false);
+    }
+    
 
     const handleChange = (newValue) => {
         props.getSessionsThisDate(newValue);
@@ -77,7 +86,7 @@ const Sessions = (props) => {
             locale: ruLocale
 })}</td>
         <td>{session.hallNumber}</td>
-        <td><Form.Check type="checkbox" sessionid={session.idSession} /></td></tr>)
+        <td><Form.Check type="checkbox" className="session-check form-check-input" sessionid={session.idSession} /></td></tr>)
 
     let scriptsOptions = props.scripts.map((script) => <option key={script.idScript} value={script.idScript}>{script.title}</option>)
 
@@ -100,12 +109,9 @@ const Sessions = (props) => {
                                 onChange={handleChange}
                                 renderInput={(params) => <TextField {...params} />}
                             />
-                        {/* <Nav.Item >
-                            <NavLink to="/plays/future" className={activeSort == "date" ? "me-3 nav-link active" : "me-3 nav-link"}>Скоро</NavLink>
-                        </Nav.Item> */}
                     </div>
-                    {props.authorization ? <div className="mt-1"><Button variant="outline-secondary" onClick={loadAddingModal}>Создать сессию</Button> <Button
-                        variant="outline-danger">Удалить</Button> </div> : null}
+                    {props.authorization ? <div className="mt-1"><Button
+                        variant="outline-danger" onClick={() => setDeleteSessionModal(true)}>Удалить</Button> </div> : null}
                 </Nav>
 
                 <div className="overflow-auto h-100 bg-white border m-4 p-3 rounded">
@@ -130,7 +136,7 @@ const Sessions = (props) => {
 
             <Modal show={addSessionModal} onHide={() => setAddSessionModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Создание представления</Modal.Title>
+                    <Modal.Title>Создание сессии</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="d-flex">
                     <form
@@ -155,9 +161,9 @@ const Sessions = (props) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Предупреждение</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Вы уверены, что хотите удалить выбранные пьесы?</Modal.Body>
+                <Modal.Body>Вы уверены, что хотите удалить выбранные сессии?</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={deleteCurrentPlays}>
+                    <Button variant="primary" onClick={deleteCurrentSessions}>
                         Да
                     </Button>
                     <Button variant="dark" onClick={() => setDeleteSessionModal(false)}>
@@ -179,6 +185,8 @@ const mapStateToProps = (state) => ({
 
 export default compose(connect(mapStateToProps, {
     getSessionsThisMonth,
-    getSessionsThisDate
+    getSessionsThisDate,
+    createSession,
+    deleteSession
 }),
     withRouter)(Sessions);

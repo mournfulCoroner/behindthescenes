@@ -78,8 +78,9 @@ public class Session {
         this.actorSessionsByIdSession = actorSessionsByIdSession;
     }
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "Play_idPlay", referencedColumnName = "idPlay", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "Play_idPlay", referencedColumnName = "idPlay", nullable = false)
     public Play getPlayByPlayIdPlay() {
         return playByPlayIdPlay;
     }

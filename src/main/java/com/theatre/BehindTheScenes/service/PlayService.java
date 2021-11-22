@@ -48,6 +48,10 @@ public class PlayService {
         return playRepository.findAll();
     }
 
+    public Play find(int idPlay) {
+        return playRepository.findById(idPlay).orElse(null);
+    }
+
     public List<Play> findPlaysOfThisMonth(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 

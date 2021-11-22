@@ -79,7 +79,6 @@ public class Play {
         this.scriptByScriptIdScript = scriptByScriptIdScript;
     }
 
-    @JsonIgnore
     @OneToMany(mappedBy = "playByPlayIdPlay")
     public Collection<Session> getSessionsByIdPlay() {
         return sessionsByIdPlay;

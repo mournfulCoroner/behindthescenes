@@ -28,6 +28,18 @@ public class PlayController {
         this.userService = userService;
     }
 
+    @GetMapping(value = "/api/plays/{id}")
+    public ResponseEntity<Play> create(
+            @PathVariable("id") int idPlay
+    ) throws IOException {
+
+            Play play = playService.find(idPlay);
+            if(play != null){
+                return new ResponseEntity<>(play, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping(value = "/api/plays")
     public ResponseEntity<Play> create(
             @RequestHeader("Authorization") String authorization,

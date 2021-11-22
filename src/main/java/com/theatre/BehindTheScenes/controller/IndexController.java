@@ -9,7 +9,7 @@ public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET,
             value = {"/", "/home/*", "/home", "/actors", "/actors/*", "/scripts", "/scripts/*",
-            "/plays", "/plays/*", "/sessions", "/sessions/*"},
+            "/plays", "/plays/*", "/sessions", "/sessions/*", "/play/*"},
             produces = "text/html")
     public String index() {
         return "/new_index.html";

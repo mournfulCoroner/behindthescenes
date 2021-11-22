@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import Sessions from "../Sessions/Sessions";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import PlayInfo from "../Plays/PlayInfo/PlayInfo";
 
 const Content = (props) => {
 
@@ -26,6 +27,7 @@ const Content = (props) => {
                     <Route path={["/scripts/:scriptId?"]}><Scripts /></Route>
                     <Route path={["/sessions/:sessionsTime?"]}><Sessions /></Route>
                     <Route path={["/plays/:playsTime?"]}><Plays /></Route>
+                    <Route path={["/play/:playId"]}><PlayInfo /></Route>
                     <Route path="*"><div>No match</div></Route>
                 </Switch>
             </section>

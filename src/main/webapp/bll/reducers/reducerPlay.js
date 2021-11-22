@@ -4,6 +4,7 @@ const SET_PLAYS = "SET_PLAYS";
 const ADD_PLAY = "ADD_PLAY";
 const REMOVE_PLAY = "REMOVE_PLAY";
 const CLEAN_PLAYS = "CLEAN_PLAYS";
+const SET_PLAY = "SET_PLAY";
 
 let initialState = {
     plays: [],
@@ -33,6 +34,11 @@ const reducerPlay = (state = initialState, action) => {
                 plays: []
             }
         }
+        case SET_PLAY:
+            return {
+                ...state,
+                play: action.play
+            }
         default:
             return state;
     }
@@ -41,6 +47,9 @@ const reducerPlay = (state = initialState, action) => {
 export const playGetters = {
     getPlays(state){
         return state.reducerPlay.plays;
+    },
+    getPlay(state){
+        return state.reducerPlay.play;
     }
 }
 
@@ -48,6 +57,7 @@ const setPlays = (plays) => ({type: SET_PLAYS, plays});
 const addPlay = (play) => ({type: ADD_PLAY, play});
 const removePlay = (ids) => ({type: REMOVE_PLAY, ids});
 const cleanPlays = () => ({type: CLEAN_PLAYS});
+const setPlay = (play) => ({type: SET_PLAY, play});
 
 
 export const getPlaysThisMonth = () => async (dispatch) => {
@@ -68,6 +78,9 @@ export const createPlay = (authorization, premierDate, endDate, idScript) => asy
 export const deletePlay = (authorization, ids) => async (dispatch) => {
     await apiPlay.deletePlay(authorization, ids)
     dispatch(removePlay(ids));
+}
+export const getPlay = (id) => async (dispatch) => {
+    dispatch(setPlay(await apiPlay.findPlay(id)));
 }
 
 export default reducerPlay;

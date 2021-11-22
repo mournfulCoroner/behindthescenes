@@ -1,8 +1,10 @@
 package com.theatre.BehindTheScenes.controller;
 
 import com.theatre.BehindTheScenes.dto.DateDTO;
+import com.theatre.BehindTheScenes.dto.SessionDTO;
 import com.theatre.BehindTheScenes.model.Session;
 import com.theatre.BehindTheScenes.model.User;
+import com.theatre.BehindTheScenes.service.PlayService;
 import com.theatre.BehindTheScenes.service.SessionService;
 import com.theatre.BehindTheScenes.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -20,20 +21,26 @@ public class SessionController {
 
     private final SessionService sessionService;
     private final UserService userService;
+    private final PlayService playService;
 
-    public SessionController(SessionService sessionService, UserService userService) {
+    public SessionController(SessionService sessionService, UserService userService, PlayService playService) {
         this.sessionService = sessionService;
         this.userService = userService;
+        this.playService = playService;
     }
 
     @PostMapping(value = "/api/sessions")
     public ResponseEntity<Session> create(
             @RequestHeader("Authorization") String authorization,
-            @RequestBody Session session
+            @RequestBody SessionDTO session
     ) throws IOException {
         User user = userService.getUserByAuthorization(authorization);
         if(user != null){
-            Session newSession = sessionService.create(session);
+            Session temp = new Session();
+            temp.setDate(session.getDate());
+            temp.setHallNumber(session.getHallNumber());
+            temp.setPlayByPlayIdPlay(playService.find(session.getIdPlay()));
+            Session newSession = sessionService.create(temp);
             return new ResponseEntity<>(newSession, HttpStatus.CREATED);
         }
         else{
@@ -41,7 +48,7 @@ public class SessionController {
         }
     }
 
-    @DeleteMapping(value = "/api/sessions/delete")
+    @PostMapping(value = "/api/sessions/delete")
     public ResponseEntity<?> delete( @RequestHeader("Authorization") String authorization,
                                      @RequestBody List<Integer> ids) throws UnsupportedEncodingException {
 
