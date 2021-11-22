@@ -35,7 +35,9 @@ const reducerActor = (state = initialState, action) => {
                     if(actor.idActor == action.id){
                         actor.name = action.name;
                     }
-                })
+                    return actor;
+                }),
+                actor: {...state.actor, name: action.name}
             }
         case SET_ACTOR_ROLES:
             return {

@@ -22,11 +22,11 @@ export const apiActor = {
                 { "Authorization": authorization }
         }).then(responce => responce.data)
     },
-    updateActor(authorization, name) {
-        return axios.put(`/api/actors/${id}`, JSON.stringify({ name }), {
+    updateActor(authorization, id, name) {
+        return axios.put(`/api/actors/${id}`, name , {
             headers:
             {
-                "Content-Type": "application/json",
+                "Content-Type": "text/plain",
                 "Authorization": authorization
             }
         }).then(responce => responce.data)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { NavLink, withRouter, Link } from "react-router-dom";
 import { compose } from "redux";
-import { actorGetters, getRoles, removeRoles, deleteActor, getActor, createRole, deleteRole } from "../../../bll/reducers/reducerActor";
+import { actorGetters, getRoles, removeRoles, deleteActor, getActor, createRole, deleteRole, changeActor, getActors } from "../../../bll/reducers/reducerActor";
 import { Button, Form, Modal, CloseButton, ListGroup } from "react-bootstrap"
 import { userGetters } from "../../../bll/reducers/reducerUser";
 import { getScripts, scriptGetters } from "../../../bll/reducers/reducerScript";
@@ -12,7 +12,7 @@ const ActorInfo = (props) => {
 
     useEffect(() => {
         checkParams();
-        // props.getScripts();
+        setActorName("")
     }, [props.match.params]);
 
     const [deleteActorRole, setdeleteActorRole] = useState(false);
@@ -23,16 +23,37 @@ const ActorInfo = (props) => {
     const [selectRoles, setSelectRoles] = useState(null);
     const [currentRoleId, setCurrentRoleId] = useState(0);
 
+    const [isEdit, setIsEdit] = useState(false);
+    const [actorName, setActorName] = useState("");
 
-    const checkParams = () => {
+    let enableEditMode = () => {
+        if (props.authorization) {
+            setIsEdit(true);
+        }
+    }
+
+    let disableEditMode = () => {
+        setIsEdit(false);
+        if(actorName) {
+            props.changeActor(props.authorization, props.actor.idActor, actorName)
+        }
+        else{
+            alert("Поле не заполнено")
+        }
+    }
+
+    let onStatusChange = (e) => {
+        setActorName(e.currentTarget.value);
+    }
+
+
+    const checkParams = async () => {
         setEmptyChose(true)
-        // props.removeRoles();
 
         if (props.match.params.actorId) {
             setEmptyChose(false)
-            props.getActor(props.match.params.actorId)
-            console.log(props.actor)
-            props.getRoles(props.match.params.actorId)
+            await props.getActor(props.match.params.actorId);
+            props.getRoles(props.match.params.actorId);
         }
     }
 
@@ -103,7 +124,13 @@ const ActorInfo = (props) => {
         <>{!emptyChose ?
             <div className="h-100 w-100 bg-white">
                 <div className="d-grid gap-1 me-4 ms-4 p-3 text-start">
-                    <p className="fs-4 fw-bold fw-light ms-0 m-2">{props.actor ? props.actor.name : null}</p>
+                    {
+                        !isEdit ?
+                        <div onDoubleClick={enableEditMode}><p className="fs-4 fw-bold fw-light ms-0 m-2">{props.actor ? props.actor.name : null}</p></div> :
+                            <input autoFocus={true} onBlur={disableEditMode} onChange={onStatusChange}
+                                 value={actorName ? actorName : props.actor.name}></input>
+                    }
+                    
                     {props.roles.length !== 0 ?
                         <div>
                             <p className="fs-5 fw-light m-1">Роли:</p>
@@ -190,6 +217,8 @@ export default compose(connect(mapStateToProps, {
     getActor,
     createRole,
     deleteRole,
-    getScripts
+    getScripts,
+    changeActor,
+    getActors
 }),
     withRouter)(ActorInfo);

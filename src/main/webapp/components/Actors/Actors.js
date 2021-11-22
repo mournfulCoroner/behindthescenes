@@ -14,10 +14,10 @@ const Actors = (props) => {
         props.setDataActors();
     }, []);
 
-    const [actorName, setActorName] = useState("");
+
     const [addActorModal, setAddActorModal] = useState(false);
 
-    let actors = props.actors.map((actor) => <NavLink to={`/actors/${actor.idActor}`} onClick={() => setActorName(actor.name)} 
+    let actors = props.actors.map((actor) => <NavLink to={`/actors/${actor.idActor}`}
     className="shadow-sm list-group-item list-group-item-action py-3 lh-tight" key={actor.idActor}>{actor.name}</NavLink>)
 
     const onSubmit = (e) => {
@@ -41,7 +41,7 @@ const Actors = (props) => {
                                 </div>
                             </div></Col>
                         <Col xs={8} className="ps-0">
-                            <ActorInfo name={actorName} />
+                            <ActorInfo />
                         </Col>
                     </Row>
                 </div>
