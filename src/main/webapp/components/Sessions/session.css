@@ -1,3 +1,14 @@
 .pills-container {
     height: min-content;
 }
+
+.sessions-container{
+    height: 100%;
+}
+
+
+@media (max-width: 991px){
+    .sessions-container{
+        height: auto;
+    }
+}

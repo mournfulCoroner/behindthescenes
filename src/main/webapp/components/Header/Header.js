@@ -25,7 +25,7 @@ const Header = (props) => {
         setIsLogoutOpen(false);
         setDisabledMenu(true)
         props.logout();
-    }  
+    }
 
     const openLogin = () => {
         props.toggleOpenLogin();
@@ -35,7 +35,7 @@ const Header = (props) => {
     return (
         <header className="header">
             <Login setDisabledMenu={setDisabledMenu} />
-            <Navbar bg="light" variant="light" className="rounded mb-auto d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
+            <Navbar bg="light" variant="light" className="rounded mb-auto d-flex flex-column flex-lg-row align-items-center justify-content-center justify-content-md-between py-3 border-bottom">
                 <Navbar.Brand className="ms-3">
                     <Link to="/home" className="nav-link"><p className="header__title text-dark fs-4 mb-0">Behind The Scenes</p></Link>
                 </Navbar.Brand>
@@ -55,7 +55,7 @@ const Header = (props) => {
                             props.nickname
                                 ?
                                 <button id="authorization-wrap" onClick={showLogout}
-                                    disabled={ disabledMenu }
+                                    disabled={disabledMenu}
                                     className="header__user">
                                     {props.nickname}
                                 </button>
@@ -68,12 +68,13 @@ const Header = (props) => {
                                     >Войти</button>
                                 </div>
                         }
-                        <div onClick={onClickLogout} className={isLogoutOpen ? `logout-menu border border-end-0 bg-light rounded-bottom border-top-0 logout-active`
-                            : `logout-menu bg-light border border-end-0 rounded-bottom border-top-0`}>
-                            <button className="header__user">Выйти</button>
-                        </div>
+
                     </div>
                 </Nav>
+                <div onClick={onClickLogout} className={isLogoutOpen ? `mt-2 mt-lg-0 logout-menu fs-5 rounded-bottom logout-active`
+                    : `mt-2 mt-lg-0 logout-menu fs-5  rounded-bottom`}>
+                    <button className="header__user">Выйти</button>
+                </div>
             </Navbar>
         </header>
     );
@@ -90,7 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
     login(authorization) {
         dispatch(userThunkCreators.getNickname(authorization))
     },
-    logout(){
+    logout() {
         dispatch(userThunkCreators.logout())
     }
 });

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import "./../plays.css";
-import { Button,  Modal, ListGroup, CloseButton } from "react-bootstrap";
+import { Button, Modal, ListGroup, CloseButton } from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import { userGetters } from "../../../bll/reducers/reducerUser";
 
@@ -11,7 +11,7 @@ import ruLocale from 'date-fns/locale/ru'
 
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import TextField from '@mui/material/TextField';
-import { createSession, deletePlaySession, getPlaySessions, sessionGetters } from "../../../bll/reducers/reducerSession";
+import { createSession, deleteSession, getPlaySessions, sessionGetters } from "../../../bll/reducers/reducerSession";
 import { getPlay, playGetters } from "../../../bll/reducers/reducerPlay";
 
 const PlayInfo = (props) => {
@@ -32,17 +32,26 @@ const PlayInfo = (props) => {
 
     const addSession = () => {
         let hallNumber = document.querySelector("#session-hall");
-        if(value && hallNumber && value >= new Date(props.play.premierDate) && value <= new Date(props.play.endDate)){
-            props.createSession(props.authorization, value, hallNumber.value, props.match.params.playId)
+        let end = new Date(props.play.endDate);
+        end.setDate(end.getDate() + 1);
+        if (value && hallNumber.value > 0) {
+            if (value >= new Date(props.play.premierDate) && value < end) {
+                props.createSession(props.authorization, value, hallNumber.value, props.match.params.playId)
+            }
+            else {
+                alert("Указанная дата не соответствует со временем показа представления");
+            }
+            setValue(null);
+            hallNumber.value = null;
         }
-        setValue(null);
-        hallNumber.value = null;
+        else {
+            alert("Не все данные заполнены");
+        }
+        
     }
 
     const deleteCurrentSession = () => {
-        let ids = [];
-        ids.push(currentSessionId);
-        props.deletePlaySession(props.authorization, ids);
+        props.deleteSession(props.authorization, [currentSessionId]);
         setDeleteSessionModal(false);
     }
 
@@ -51,52 +60,52 @@ const PlayInfo = (props) => {
         setDeleteSessionModal(true);
     }
 
-    let sessions = props.playSessions.map((session) => <ListGroup.Item key={session.idSession}
-    className="fs-5 d-flex justify-content-between"><p className="m-1 p-2">Время: {format(new Date(session.date), "Pp", {
-        locale: ruLocale
-    })} </p> <div sessionid={session.idSession} className="d-flex align-items-center">
-        <p className="m-1 p-2">Номер зала: {session.hallNumber}</p>
-        <CloseButton onClick={initialSessionId} /></div></ListGroup.Item>)
+    let sessions = props.sessions.map((session) => <ListGroup.Item key={session.idSession}
+        className="fs-5 d-flex justify-content-between"><p className="m-1 p-2">Время: {format(new Date(session.date), "Pp", {
+            locale: ruLocale
+        })} </p> <div sessionid={session.idSession} className="d-flex align-items-center">
+            <p className="m-1 p-2">Номер зала: {session.hallNumber}</p>
+            {props.authorization ? <CloseButton onClick={initialSessionId} /> : null}</div></ListGroup.Item>)
     return (
         <>
             <div className="d-flex flex-column d-md-flex d-sm-flex album overflow-hidden border bg-light rounded mx-auto h-100">
-                
-                    <div className="bg-white border m-2 p-3 rounded">
-                        {props.play ? <div className="d-flex align-items-baseline flex-column flex-lg-row mx-auto mx-lg-0">
-                        <h3 className="m-2">{props.play.scriptByScriptIdScript.title}</h3> 
-                        <p className="fs-5 m-2 mx-3">{props.play.premierDate}</p> 
+
+                <div className="bg-white border m-2 p-3 rounded">
+                    {props.play ? <div className="d-flex align-items-baseline flex-column flex-lg-row mx-auto mx-lg-0">
+                        <h3 className="m-2">{props.play.scriptByScriptIdScript.title}</h3>
+                        <p className="fs-5 m-2 mx-3">{props.play.premierDate}</p>
                         <p className="fs-5 m-2 mx-3">{props.play.endDate}</p></div> : null}
-                    </div>
-                
-
-                <div className="align-items-center bg-white border d-flex justify-content-between m-2 p-3 rounded">
-                    <div>
-                    <DateTimePicker
-                        id="session-date"
-                        className="mx-2"
-                        label="Выберите время"
-                        value={value}
-                        onChange={(newValue) => setValue(newValue)}
-                        renderInput={(params) => <TextField {...params} />}
-                    />
-                    <TextField
-                        className="mx-2 m-25"
-                        style={{"width": "246px"}}
-                        id="session-hall"
-                        label="Номер зала"
-                        type="number"
-                        inputProps={{
-                            min: 1,
-                            max: 6
-                        }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    </div>
-
-                    {props.authorization ? <div><Button variant="outline-secondary" onClick={addSession}>Создать сессию</Button> </div> : null}
                 </div>
+
+{props.authorization ?
+                <div className="align-items-center bg-white border d-flex flex-column flex-lg-row justify-content-between m-2 p-3 rounded">
+                    <div>
+                        <DateTimePicker
+                            id="session-date"
+                            className="mx-2"
+                            label="Выберите время"
+                            value={value}
+                            onChange={(newValue) => setValue(newValue)}
+                            renderInput={(params) => <TextField className="my-3 my-lg-0" {...params} />}
+                        />
+                        <TextField
+                            className="mx-2 my-lg-0 my-2"
+                            style={{ "width": "246px" }}
+                            id="session-hall"
+                            label="Номер зала"
+                            type="number"
+                            inputProps={{
+                                min: 1,
+                                max: 6
+                            }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </div>
+
+                     <div><Button variant="outline-secondary" className="m-3 m-lg-0" onClick={addSession}>Создать сессию</Button> </div> 
+                </div> : null}
 
                 <div className="overflow-auto h-100 bg-white border m-2 p-3 rounded">
                     {props.play && props.play.sessionsByIdPlay ? <ListGroup>
@@ -127,13 +136,13 @@ const PlayInfo = (props) => {
 const mapStateToProps = (state) => ({
     authorization: userGetters.getAuthorization(state),
     play: playGetters.getPlay(state),
-    playSessions: sessionGetters.getPlaySessions(state)
+    sessions: sessionGetters.getSessions(state)
 });
 
 
 export default compose(connect(mapStateToProps, {
     createSession,
-    deletePlaySession,
+    deleteSession,
     getPlaySessions,
     getPlay
 }),

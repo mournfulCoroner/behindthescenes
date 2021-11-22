@@ -2,14 +2,12 @@ import { apiSession } from "../../api/apiSession";
 
 const SET_SESSIONS = "SET_SESSIONS";
 const REMOVE_SESSION = "REMOVE_SESSION";
-const ADD_PLAY_SESSION = "ADD_PLAY_SESSION";
-const REMOVE_PLAY_SESSION = "REMOVE_PLAY_SESSION";
+const ADD_SESSION = "ADD_PLAY_SESSION";
 const SET_PLAY_SESSIONS = "SET_PLAYSESSIONS";
 
 let initialState = {
     sessions: [],
-    session: null,
-    playSessions: []
+    session: null
 };
 
 const reducerSession = (state = initialState, action) => {
@@ -22,22 +20,17 @@ const reducerSession = (state = initialState, action) => {
         case REMOVE_SESSION:
             return {
                 ...state,
-                sessions: state.sessions.filter((session) => session.idSession != action.id)
+                sessions: state.sessions.filter((session) => !action.ids.find((id) => id == session.id || id == session.idSession))
             }
         case SET_PLAY_SESSIONS:
             return {
                 ...state,
-                playSessions: action.sessions
+                sessions: action.sessions
             }
-        case ADD_PLAY_SESSION:
+        case ADD_SESSION:
             return {
                 ...state,
-                playSessions: [...state.playSessions, action.session]
-            }
-        case REMOVE_PLAY_SESSION:
-            return {
-                ...state,
-                playSessions: state.playSessions.filter((session) => session.idSession != action.id)
+                sessions: [...state.sessions, action.session]
             }
         default:
             return state;
@@ -47,16 +40,12 @@ const reducerSession = (state = initialState, action) => {
 export const sessionGetters = {
     getSessions(state){
         return state.reducerSession.sessions;
-    },
-    getPlaySessions(state){
-        return state.reducerSession.playSessions;
     }
 }
 
 const setSessions = (sessions) => ({type: SET_SESSIONS, sessions});
-const addSession = (session) => ({type: ADD_PLAY_SESSION, session});
-const removeSession = (id) => ({type: REMOVE_SESSION, id});
-const removePlaySession = (id) => ({ type: REMOVE_PLAY_SESSION, id });
+const addSession = (session) => ({type: ADD_SESSION, session});
+const removeSession = (ids) => ({type: REMOVE_SESSION, ids});
 const setPlaySessions = (sessions) => ({type: SET_PLAY_SESSIONS, sessions})
 
 
@@ -72,10 +61,6 @@ export const createSession = (authorization, date, hallNumber, idPlay) => async 
 export const deleteSession = (authorization, id) => async (dispatch) => {
     await apiSession.deleteSession(authorization, id)
     dispatch(removeSession(id));
-}
-export const deletePlaySession = (authorization, id) => async (dispatch) => {
-    await apiSession.deleteSession(authorization, id)
-    dispatch(removePlaySession(id));
 }
 export const getPlaySessions = (sessions) => (dispatch) => {
     dispatch(setPlaySessions(sessions));

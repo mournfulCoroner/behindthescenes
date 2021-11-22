@@ -7,12 +7,12 @@
     font-family: 'Roboto Condensed', sans-serif !important;
 }
 
-.header a{
+.header a {
     font-family: 'Roboto Condensed', sans-serif !important;
-    color: rgba(0,0,0,.55);
+    color: rgba(0, 0, 0, .55);
 }
 
-.header__user{
+.header__user {
     float: right;
     text-decoration: none;
     border: none;
@@ -20,7 +20,7 @@
 }
 
 .logout-menu {
-    top: var(--height-header);
+    top: calc(var(--height-header) - 16px);
     position: absolute;
     right: 0;
     min-width: 215px;
@@ -29,12 +29,28 @@
     flex-direction: column;
     align-items: center;
     padding: 7px;
-    visibility:hidden;
+    visibility: hidden;
     opacity: 0;
     cursor: pointer;
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    border: 1px solid #dee2e6 !important;
+    border-right: 0 !important;
+    border-top: 0 !important;
 }
 
-.logout-active{
+@media (max-height: 992px) {
+    .logout-menu {
+        position: static !important;
+        border: 1px solid #dee2e6 !important;
+        border-top-right-radius: 0.25rem !important;
+        border-top-left-radius: 0.25rem !important;
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity)) !important;
+    }
+}
+
+.logout-active {
     opacity: 1;
     visibility: visible;
     transition: opacity 100ms linear, top 100ms linear, visibility 100ms linear;

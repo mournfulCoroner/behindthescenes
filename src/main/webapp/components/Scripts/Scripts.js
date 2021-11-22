@@ -18,7 +18,7 @@ const Scripts = (props) => {
         <>
             <div className="album d-block overflow-hidden border bg-light rounded mx-auto h-100">
                 <Row style={{ height: "100%" }}>
-                    <Col xs={4} className="pe-0">
+                    <Col xs={4} className="pe-0 overflow-auto">
                         <div className="actors-container d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
                             <div className="overflow-auto list-group list-group-flush border-bottom scrollarea">
                                 {scripts}

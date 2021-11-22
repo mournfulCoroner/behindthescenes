@@ -79,8 +79,8 @@ export const deletePlay = (authorization, ids) => async (dispatch) => {
     await apiPlay.deletePlay(authorization, ids)
     dispatch(removePlay(ids));
 }
-export const getPlay = (id) => async (dispatch) => {
-    dispatch(setPlay(await apiPlay.findPlay(id)));
+export const getPlay = (ids) => async (dispatch) => {
+    dispatch(setPlay(await apiPlay.findPlay(ids)));
 }
 
 export default reducerPlay;

@@ -23,10 +23,17 @@ html, body, #root{
     grid-auto-rows: minmax(var(--height-header), auto);
 }
 
-@media(max-width: 806px){
+.all-container{
+    height: 100%;
+}
+
+@media(max-width: 992px){
     .content-container{
         gap: 1rem !important;
         grid-template-rows: auto;
+    }
+    .all-container{
+        height: auto !important;
     }
 }
 

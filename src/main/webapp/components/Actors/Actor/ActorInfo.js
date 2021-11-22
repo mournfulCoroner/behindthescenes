@@ -112,7 +112,8 @@ const ActorInfo = (props) => {
                                     {roles}
                                 </ListGroup>
                             </div> </div> : null}
-                    {props.authorization ? <div><Button onClick={formAdding} variant="outline-secondary">Добавить роль</Button> <Button onClick={() => { setdeleteActorRole(true) }}
+                    {props.authorization ? <div><Button onClick={formAdding} className="mb-3 mb-lg-0" variant="outline-secondary">Добавить роль</Button> <Button 
+                    className="mb-3 mb-lg-0" onClick={() => { setdeleteActorRole(true) }}
                         variant="outline-danger">Удалить актёра</Button> </div>: null}
                 </div>
             </div> : null}

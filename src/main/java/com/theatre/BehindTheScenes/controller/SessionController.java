@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,19 +67,37 @@ public class SessionController {
     }
 
     @PostMapping(value = "/api/sessions/month")
-    public ResponseEntity<List<Session>> findSessionsThisMonth(
+    public ResponseEntity<List<SessionDTO>> findSessionsThisMonth(
             @RequestBody DateDTO date
     ) throws IOException {
             List<Session> sessions = sessionService.findSessionsOfThisMonth(new Date(date.getDate()));
-            return new ResponseEntity<>(sessions, HttpStatus.CREATED);
+            List<SessionDTO> sessionDTOS = new ArrayList<>();
+            for(Session session: sessions){
+                SessionDTO dto = new SessionDTO();
+                dto.setDate(session.getDate());
+                dto.setPlayByPlayIdPlay(session.getPlayByPlayIdPlay());
+                dto.setHallNumber(session.getHallNumber());
+                dto.setId(session.getIdSession());
+                sessionDTOS.add(dto);
+            }
+            return new ResponseEntity<>(sessionDTOS, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/api/sessions/date")
-    public ResponseEntity<List<Session>> findSessionsThisDate(
+    public ResponseEntity<List<SessionDTO>> findSessionsThisDate(
             @RequestBody DateDTO date
     ){
             List<Session> sessions = sessionService.findSessionsOfThisDate(new Date(date.getDate()));
-            return new ResponseEntity<>(sessions, HttpStatus.CREATED);
+            List<SessionDTO> sessionDTOS = new ArrayList<>();
+            for(Session session: sessions){
+                SessionDTO dto = new SessionDTO();
+                dto.setDate(session.getDate());
+                dto.setPlayByPlayIdPlay(session.getPlayByPlayIdPlay());
+                dto.setHallNumber(session.getHallNumber());
+                dto.setId(session.getIdSession());
+                sessionDTOS.add(dto);
+            }
+            return new ResponseEntity<>(sessionDTOS, HttpStatus.CREATED);
     }
 
 }

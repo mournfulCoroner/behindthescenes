@@ -89,8 +89,8 @@ const Plays = (props) => {
 
   return (
     <>
-      <div className="plays-container d-lg-grid d-md-flex d-sm-flex album overflow-hidden border bg-light rounded mx-auto h-100">
-        <Nav variant="pills" className="align-items-center bg-white border m-4 nav nav-pills p-3 rounded d-flex justify-content-between">
+      <div className="d-flex flex-column d-md-flex d-sm-flex album overflow-hidden border bg-light rounded mx-auto h-100">
+        <Nav variant="pills" className="align-items-center bg-white border m-4 nav nav-pills p-3 rounded d-flex flex-column flex-lg-row justify-content-between">
           <div className="d-flex flex-column flex-lg-row mx-auto mx-lg-0">
             <Nav.Item>
               <NavLink to="/plays/past" className={activeSort == "past" ? "me-3 nav-link active" : "me-3 nav-link"}>Прошедшие</NavLink>
@@ -102,7 +102,7 @@ const Plays = (props) => {
               <NavLink to="/plays/future" className={activeSort == "future" ? "me-3 nav-link active" : "me-3 nav-link"}>Скоро</NavLink>
             </Nav.Item>
           </div>
-          {props.authorization ? <div><Button variant="outline-secondary" onClick={loadAddingModal}>Создать представление</Button> <Button
+          {props.authorization ? <div className="d-flex d-lg-block flex-column"><Button variant="outline-secondary" className="mb-2 mb-lg-0" onClick={loadAddingModal}>Создать представление</Button> <Button
             onClick={() => setDeletePlaysModal(true)}
             variant="outline-danger">Удалить</Button> </div> : null}
         </Nav>
