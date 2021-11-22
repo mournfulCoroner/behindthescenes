@@ -47,18 +47,26 @@ const Plays = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (endDate && premierDate && endDate > premierDate) {
-      if (premierDate.getMonth() > new Date().getMonth()) {
-        props.history.push("/plays/future");
-      }
-      else if (endDate.getMonth() < new Date().getMonth()) {
-        props.history.push("/plays/past");
+    if (endDate && premierDate) {
+      if (endDate >= premierDate) {
+        if (premierDate.getMonth() > new Date().getMonth()) {
+          props.history.push("/plays/future");
+        }
+        else if (endDate.getMonth() < new Date().getMonth()) {
+          props.history.push("/plays/past");
+        }
+        else {
+          props.history.push("/plays/now");
+        }
+        props.createPlay(props.authorization, premierDate, endDate, e.currentTarget.elements.scriptId.value)
+        setAddPlayModal(false);
       }
       else {
-        props.history.push("/plays/now");
+        alert("Дата окончания раньше даты премьеры")
       }
-      props.createPlay(props.authorization, premierDate, endDate, e.currentTarget.elements.scriptId.value)
-      setAddPlayModal(false);
+    }
+    else {
+      alert("Остались незаполненные поля");
     }
   }
 
@@ -79,7 +87,7 @@ const Plays = (props) => {
     setDeletePlaysModal(false);
   }
 
-  let plays = props.plays.map((play) =><tr key={play.idPlay}><td>{play.idPlay}</td>
+  let plays = props.plays.map((play) => <tr key={play.idPlay}><td>{play.idPlay}</td>
     <td><Link className="text-black text-decoration-none" to={`/play/${play.idPlay}`}><div className="w-100"> {play.scriptByScriptIdScript.title}</div></Link></td>
     <td>{play.premierDate}</td>
     <td>{play.endDate}</td>

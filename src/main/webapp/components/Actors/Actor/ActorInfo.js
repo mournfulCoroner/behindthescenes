@@ -119,7 +119,7 @@ const ActorInfo = (props) => {
     let roles = props.roles.map((role) => <ListGroup.Item key={role.idRole} role={role.idRole} className="d-flex align-items-center justify-content-between">
         <Link className="text-black text-decoration-none" to={`/scripts/${role.idScript}`}><p className="fs-5 fw-light m-1 pb-1">
         {role.roleName}</p></Link>
-        <CloseButton onClick={initialDeleteRole} className="p-0 mb-0 ms-2 fs-6" /></ListGroup.Item>)
+        {props.authorization ? <CloseButton onClick={initialDeleteRole} className="p-0 mb-0 ms-2 fs-6" /> : null}</ListGroup.Item>)
     return (
         <>{!emptyChose ?
             <div className="h-100 w-100 bg-white">
