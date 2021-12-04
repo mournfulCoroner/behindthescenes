@@ -67,7 +67,7 @@ const reducerActor = (state = initialState, action) => {
         case REMOVE_ROLE:
             return {
                 ...state,
-                actorRoles: state.actorRoles.filter((role) => role.roleId != action.roleId)
+                actorRoles: state.actorRoles.filter((role) => role.idRole != action.roleId)
             }
         default:
             return state;
